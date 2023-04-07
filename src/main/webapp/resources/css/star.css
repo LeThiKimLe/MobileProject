@@ -1,0 +1,138 @@
+@charset "utf-8";
+
+
+.star_show:hover
+{
+	color: #ff8000;
+}
+
+.star_show_1
+{
+	position: relative;
+}
+
+.star_show_1:hover::after
+{
+	display: block;
+}
+
+.star_show_1::after
+{
+	
+	content:"Rất tệ";
+	display: none;
+	position: absolute;
+	top: 110%;
+	left: -30px;
+	background-color: #eaeeb3;
+	width: 150px;
+	color: #000000;
+	text-align: center;
+	font-size: 15px;
+	border-radius: 25%;
+}
+
+
+.star_show_2
+{
+	position: relative;
+}
+
+.star_show_2:hover::after
+{
+	display: block;
+}
+
+.star_show_2::after
+{
+	content:"Tệ";
+	display: none;
+	position: absolute;
+	top: 110%;
+	left: -30px;
+	background-color: #eaeeb3;
+	width: 150px;
+	color: #000000;
+	text-align: center;
+	font-size: 15px;
+	border-radius: 25%;
+}
+
+
+.star_show_3
+{
+	position: relative;
+}
+
+.star_show_3:hover::after
+{
+	display: block;
+}
+
+.star_show_3::after
+{
+	content:"Trung bình";
+	display: none;
+	position: absolute;
+	top: 110%;
+	left: -30px;
+	background-color: #eaeeb3;
+	width: 150px;
+	color: #000000;
+	text-align: center;
+	font-size: 15px;
+	border-radius: 25%;
+}
+
+
+.star_show_4
+{
+	position: relative;
+}
+
+.star_show_4:hover::after
+{
+	display: block;
+}
+
+.star_show_4::after
+{
+	content:"Tốt";
+	display: none;
+	position: absolute;
+	top: 110%;
+	left: -30px;
+	background-color: #eaeeb3;
+	width: 150px;
+	color: #000000;
+	text-align: center;
+	font-size: 15px;
+	border-radius: 25%;
+}
+
+.star_show_5
+{
+	position: relative;
+}
+
+.star_show_5:hover::after
+{
+	display: block;
+}
+
+.star_show_5::after
+{
+	content:"Xuất sắc";
+	display: none;
+	position: absolute;
+	top: 110%;
+	left: -30px;
+	background-color: #eaeeb3;
+	width: 150px;
+	color: #000000;
+	text-align: center;
+	font-size: 15px;
+	border-radius: 25%;
+}
+
+

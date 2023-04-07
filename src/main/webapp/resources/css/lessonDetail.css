@@ -1,0 +1,59 @@
+@charset "UTF-8";
+
+.title
+{
+	font-size: 18px;
+	font-weight: 500px;
+	margin: 25px 10px;
+	text-decoration: underline;
+	color: #041762;
+}
+
+.comment_Detail
+{
+	font-size: 15px;
+	font-weight: 400;
+	
+}
+
+.comment_Box
+{
+	width: 100%;
+    background-color: #f5f0cb;
+    border-radius: 15px;
+    padding: 8px;
+    margin-right: 5px;
+}
+
+.parent_Comment
+{
+	
+}
+
+.child_Comment
+{
+	
+}
+
+.child_Comment li
+{
+	margin: 30px 0;
+    padding: 5px;
+}
+
+.hide
+{
+	display: none;
+}
+
+.detail-btn
+{
+	background-color:#d8d6c0;
+	border-radius:15px;
+	cursor:pointer;
+}
+
+.detail-btn:hover
+{
+	background-color:#f3bc78;
+}

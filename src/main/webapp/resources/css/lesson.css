@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+.lesson:hover
+{
+	background-color: #c2e2d7;
+	cursor: pointer;
+}
+
+.chosen
+{
+	background-color: #c2e2d7;
+}
+
+.content-fix
+{
+	background-color: #e6e7da;
+}			
