@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import dao.ConnectDataBase;
 import utils.*;
 
@@ -26,6 +28,7 @@ public class KhoaHoc implements java.io.Serializable {
 	private String moTa;
 	private Integer soBaiHoc;
 	private Integer giaTien;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "GMT+7")
 	private Date ngayCapNhat;
 	private String hinhAnhMoTa;
 	
