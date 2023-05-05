@@ -43,22 +43,25 @@ public class DangNhapAPIController extends HttpServlet {
 
 		DangNhap accountDangNhap = null;
 		HocVienAPI hvApi = new HocVienAPI();
-		
+
 		try {
 			accountDangNhap = DBUtils.YeuCauDangNhap(conn, username, password);
-			if(accountDangNhap != null && conn != null) {
+			if (accountDangNhap != null && conn != null) {
 				hvApi.setResult("success");
 				hvApi.setHocVien(DBUtils.LayThongTin(conn, accountDangNhap.getIdString()));
-			}
-			else {
+			} else {
 				hvApi.setResult("fail");
+				if(!DBUtils.CheckUsername(conn, username)) {
+					hvApi.setMessage("Mật khẩu sai");
+				}
+				else {
+					hvApi.setMessage("Tài khoản và mật khẩu không tồn tại");
+				}
 			}
 			ObjectMapper Obj = new ObjectMapper();
-			try {
-				Obj.writeValue(response.getOutputStream(), hvApi);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			conn.close();
+			Obj.writeValue(response.getOutputStream(), hvApi);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
