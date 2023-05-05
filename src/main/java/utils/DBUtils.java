@@ -27,6 +27,7 @@ public class DBUtils
 	        while (rs.next()) 
 	        {
 	        	String role = rs.getString("Role");
+	        	String id = rs.getString("Id");
 	        	if (role.equals("HV"))
 	        		idString=rs.getString("MaHocVien");
 	        	else if (role.equals("GV"))
@@ -34,7 +35,7 @@ public class DBUtils
 	        	else 
 	        		idString=rs.getString("MaQTV");
 	        	
-	            DangNhap dn = new DangNhap(idString, username, password, role, false);
+	            DangNhap dn = new DangNhap(idString, id, username, password, role, false);
 	            return dn;
 	        }
 	        return null;
@@ -135,7 +136,7 @@ public class DBUtils
 	        while (rs.next()) 
 	        {
 	        	String ten_hocvien = rs.getString("TenHocVien");
-	            Date ngay_sinh = rs.getDate("NgaySinh");           
+	            Date ngay_sinh = new Date(rs.getDate("NgaySinh").getTime());           
 	            String so_dienthoai = rs.getString("SDT");
 	            String emailString= rs.getString("Email");
 	            HocVien hv = new HocVien(maHocVien,ten_hocvien,ngay_sinh, so_dienthoai, emailString);
