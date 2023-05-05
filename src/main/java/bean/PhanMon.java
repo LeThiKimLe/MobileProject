@@ -13,6 +13,7 @@ public class PhanMon implements java.io.Serializable {
 	private KhoiLop khoiLop;
 	private Mon mon;
 	private String tenPhanMon;
+	private String image;
 	
 	public PhanMon() {
 	}
@@ -60,5 +61,26 @@ public class PhanMon implements java.io.Serializable {
 	public void setTenPhanMon(String tenPhanMon) {
 		this.tenPhanMon = tenPhanMon;
 	}
+
+	/**
+	 * @return the image
+	 */
+	public String getImage() {
+		return image;
+	}
+
+	/**
+	 * @param image the image to set
+	 */
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	@Override
+	public String toString() {
+		return "PhanMon [maPhanMon=" + maPhanMon + ", khoiLop=" + khoiLop + ", mon=" + mon + ", tenPhanMon="
+				+ tenPhanMon + ", image=" + image + "]";
+	}
+	
 
 }
