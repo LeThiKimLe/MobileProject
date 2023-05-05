@@ -26,7 +26,8 @@ public class DangNhapAPIController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		
+		response.setContentType("application/json;charset=UTF-8");
 		Connection conn = null;
 		try {
 			conn = ConnectDataBase.getConnection();
