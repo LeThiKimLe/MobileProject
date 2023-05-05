@@ -21,6 +21,7 @@ import dao.ConnectDataBase;
 /**
  * Servlet implementation class CaNhanController
  */
+@SuppressWarnings("unused")
 @WebServlet(name="mypage", urlPatterns = {"/mypage"})
 public class CaNhanController extends HttpServlet {
 	private static final long serialVersionUID = 1L;

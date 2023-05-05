@@ -72,7 +72,7 @@ public class DangNhap implements java.io.Serializable {
         return kqString;  
 	}
 	
-	public DangNhap(String id, String username,String password, String role, boolean autoid) throws SQLException
+	public DangNhap(String idString ,String id, String username,String password, String role, boolean autoid) throws SQLException
 	{
 		if(autoid==true)
 			this.idString=autoID();
@@ -80,6 +80,7 @@ public class DangNhap implements java.io.Serializable {
 		this.username = username;
 		this.password = password;
 		this.role = role;
+		this.idString = idString;
 	}
 	
 	public DangNhap(String id, String username,String password, String role) throws SQLException
@@ -131,4 +132,12 @@ public class DangNhap implements java.io.Serializable {
 		this.idString = idString;
 	}
 
+
+	@Override
+	public String toString() {
+		return "DangNhap [idString=" + idString + ", identity=" + identity + ", username=" + username + ", password="
+				+ password + ", role=" + role + "]";
+	}
+	
+	
 }

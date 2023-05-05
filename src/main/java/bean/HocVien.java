@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import dao.ConnectDataBase;
 import utils.DBUtils;
 
@@ -23,9 +25,11 @@ public class HocVien implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private String maHocVien;
 	private String tenHocVien;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "GMT+7")
 	private Date ngaySinh;
 	private String sdt;
 	private String email;
+	private String image;
 
 	public HocVien() {
 	}
@@ -59,6 +63,18 @@ public class HocVien implements java.io.Serializable {
         return kqString;  
 	}
 	
+	
+	
+	public HocVien(String maHocVien, String tenHocVien, Date ngaySinh, String sdt, String email, String image) {
+		super();
+		this.maHocVien = maHocVien;
+		this.tenHocVien = tenHocVien;
+		this.ngaySinh = ngaySinh;
+		this.sdt = sdt;
+		this.email = email;
+		this.image = image;
+	}
+
 	public HocVien(String maHocVien, String tenHocVien, Date ngaySinh, String sdt, String email) {
 		this.maHocVien = maHocVien;
 		this.tenHocVien = tenHocVien;
@@ -122,6 +138,20 @@ public class HocVien implements java.io.Serializable {
 		this.email = email;
 	}
 	
+	/**
+	 * @return the image
+	 */
+	public String getImage() {
+		return image;
+	}
+
+	/**
+	 * @param image the image to set
+	 */
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 	public int LaySoDuVi(Connection conn)
 	{	
 		int SoDu=0;
@@ -168,5 +198,11 @@ public class HocVien implements java.io.Serializable {
        return bHocs;
        
 	 }
+
+	@Override
+	public String toString() {
+		return "HocVien [maHocVien=" + maHocVien + ", tenHocVien=" + tenHocVien + ", ngaySinh=" + ngaySinh + ", sdt="
+				+ sdt + ", email=" + email + ", image=" + image + "]";
+	}
 
 }
