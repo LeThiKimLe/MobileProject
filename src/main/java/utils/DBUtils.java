@@ -42,7 +42,7 @@ public class DBUtils
 	    }
 	 
 	 public static void YeuCauDangKy(Connection conn, HocVien hv, DangNhap dn) throws SQLException {
-	        String sql = "Insert into HocVien values(?, ?, ?, ?, ?)";
+	        String sql = "Insert into HocVien values(?, ?, ?, ?, ?, null)";
 	 
 	        PreparedStatement pstm = conn.prepareStatement(sql);
 	        

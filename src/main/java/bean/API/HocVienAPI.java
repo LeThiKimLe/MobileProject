@@ -10,6 +10,7 @@ public class HocVienAPI implements Serializable{
 	 */
 	private static final long serialVersionUID = 4673744252527882000L;
 	private String result;
+	private String message;
 	private HocVien hocVien;
 	/**
 	 * @return the result
@@ -35,9 +36,21 @@ public class HocVienAPI implements Serializable{
 	public void setHocVien(HocVien hocVien) {
 		this.hocVien = hocVien;
 	}
+	/**
+	 * @return the message
+	 */
+	public String getMessage() {
+		return message;
+	}
+	/**
+	 * @param message the message to set
+	 */
+	public void setMessage(String message) {
+		this.message = message;
+	}
 	@Override
 	public String toString() {
-		return "HocVienAPI [result=" + result + ", hocVien=" + hocVien + "]";
+		return "HocVienAPI [result=" + result + ", message=" + message + ", hocVien=" + hocVien + "]";
 	}
 	
 }
