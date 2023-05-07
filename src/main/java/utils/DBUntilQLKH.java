@@ -272,4 +272,26 @@ public class DBUntilQLKH {
 		return khhv;
 	}
 	
+	public static List<BaiHoc> DanhSachBaiHocVien(Connection conn, String maKhoaHoc, String maHocVien)
+			throws SQLException {
+		String sql = "select bh.*\r\n"
+				+ "from DangKyKhoaHoc as dk\r\n"
+				+ "inner join BaiHoc as bh on bh.MaKhoaHoc = dk.MaKhoaHoc\r\n"
+				+ "where MaHocVien=? and dk.MaKhoaHoc=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, maHocVien);
+		pstm.setString(2, maKhoaHoc);
+		ResultSet rs = pstm.executeQuery();
+		List<BaiHoc> bh = new ArrayList<BaiHoc>();
+		while(rs.next()) {
+			BaiHoc bh1 = new BaiHoc();
+			bh1.setMaBaiHoc(rs.getString("MaBaiHoc"));
+			bh1.setTenBaiHoc(rs.getNString("TenBaiHoc"));
+			bh1.setMoTaNoiDung(rs.getNString("MoTaNoiDung"));
+			bh1.setKhoaHoc(rs.getString("MaKhoaHoc"));
+			bh.add(bh1);
+		}
+		return bh;
+	}
+	
 }

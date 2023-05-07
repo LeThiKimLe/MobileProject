@@ -8,6 +8,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import bean.BaiHoc;
+import bean.API.BaiHocAPI;
 import bean.API.KhoaHocGiaoVienAPI;
 import bean.API.KhoaHocHocVienAPI;
 import dao.ConnectDataBase;
@@ -41,7 +43,33 @@ public class KhoaHocUserAPIController extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if (path.contains("/api/student/myCourse")) {
+		if (path.contains("/api/student/myCourse/info")) {
+			String maHocVien = req.getParameter("maHocVien");
+			String maKhoaHoc = req.getParameter("maKhoaHoc");
+			BaiHocAPI bh = new BaiHocAPI();
+			List<BaiHoc> listBH = new ArrayList<BaiHoc>();
+			try {
+				listBH = DBUntilQLKH.DanhSachBaiHocVien(conn, maKhoaHoc, maHocVien);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if (listBH == null) {
+				bh.setResult("fail");
+				bh.setMessage("Học viên chưa đăng ký khóa học hoặc bài học chưa được phát hành");
+			} else {
+				bh.setResult("success");
+				bh.setLessons(listBH);
+			}
+			try {
+				ObjectMapper obj = new ObjectMapper();
+				conn.close();
+				obj.writeValue(resp.getOutputStream(), bh);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else if (path.contains("/api/student/myCourse")) {
 			String maHocVien = req.getParameter("maHocVien");
 			List<KhoaHocHocVienAPI> khhv = new ArrayList<KhoaHocHocVienAPI>();
 
@@ -54,9 +82,6 @@ public class KhoaHocUserAPIController extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}else if(path.contains("/api/student/myCourse/info")) {
-			String maHocVien = req.getParameter("maHocVien");
-			
 		} else {
 			String maGiaoVien = req.getParameter("maGiaoVien");
 			List<KhoaHocGiaoVienAPI> khgv = new ArrayList<KhoaHocGiaoVienAPI>();
@@ -65,7 +90,7 @@ public class KhoaHocUserAPIController extends HttpServlet {
 				ObjectMapper obj = new ObjectMapper();
 				conn.close();
 				obj.writeValue(resp.getOutputStream(), khgv);
-			}catch (SQLException e) {
+			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
