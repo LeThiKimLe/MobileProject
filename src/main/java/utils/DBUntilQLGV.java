@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import bean.*;
 import bean.GiaoVien;
+import bean.API.KhoaHocGiaoVienAPI;
 
 public class DBUntilQLGV {
 	public static List<GiaoVien> listGiaoVien(Connection conn) throws SQLException {
@@ -122,6 +123,33 @@ public class DBUntilQLGV {
         pstm2.executeUpdate();
         
     }
+	/**
+	 * Danh sách các khóa học của giáo viên 
+	 * @param conn
+	 * @param maGiaoVien
+	 * @return
+	 * @throws SQLException
+	 */
+	public static List<KhoaHocGiaoVienAPI> DanhSachKhoaHocGiaoVien(Connection conn, String maGiaoVien)
+			throws SQLException {
+		String sql = "select kh.*, pm.TenPhanMon \r\n"
+				+ "from KhoaHoc as kh\r\n"
+				+ "inner join PhanMon as pm on kh.PhanMon = pm.MaPhanMon\r\n"
+				+ "where kh.GiaoVien = ?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, maGiaoVien);
+		ResultSet rs = pstm.executeQuery();
+		List<KhoaHocGiaoVienAPI> listKhGV = new ArrayList<KhoaHocGiaoVienAPI>();
+		while(rs.next()) {
+			KhoaHocGiaoVienAPI kh = new KhoaHocGiaoVienAPI();
+			kh.setMaKhoaHoc(rs.getString("MaKhoaHoc"));
+			kh.setTenKhoaHoc(rs.getNString("TenKhoaHoc"));
+			kh.setTenPhanMon(rs.getNString("TenPhanMon"));
+			kh.setHinhAnhMoTa(rs.getString("HinhAnhMoTa"));
+			listKhGV.add(kh);
+		}
+		return listKhGV;
+	}
 }
 
 
