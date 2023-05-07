@@ -96,7 +96,9 @@ public class DBUtils {
 		}
 		return true;
 	}
-
+	
+	
+	
 	public static String CheckUseMail(Connection conn, String username) throws SQLException {
 		String sql = "Select b.* from DangNhap a join HocVien b on a.MaHocVien=b.MaHocVien where username=?";
 		PreparedStatement pstm = conn.prepareStatement(sql);
@@ -397,6 +399,9 @@ public class DBUtils {
 			kh.setGiaTien(giaTien);
 			kh.setHinhAnhMoTa(img);
 			kh.setMoTa(mota);
+			kh.setPhanMon(rs.getNString("TenPhanMon"));
+			kh.setGiaTien(rs.getBigDecimal("GiaTien").intValue());
+			kh.setSoBaiHoc(rs.getInt("SoBaiHoc"));
 
 			Khoahoc.add(kh);
 			System.out.print("Thanh cong1");
@@ -407,16 +412,16 @@ public class DBUtils {
 
 	public static List<KhoiLopAPI> khoaHocTheoKhoiLop(Connection conn) throws SQLException {
 		List<KhoiLop> khoiLop = DBUtils.LayAllKhoiLop(conn);
-		
+
 		List<KhoiLopAPI> khoiLopAPI = new ArrayList<KhoiLopAPI>();
-		
-		for(int i = 0; i < khoiLop.size(); i++) {
+
+		for (int i = 0; i < khoiLop.size(); i++) {
 			KhoiLopAPI klAPI = new KhoiLopAPI();
 			klAPI.setKhoi(khoiLop.get(i));
 			klAPI.setKhoahoc(searchByKhoiLop(conn, khoiLop.get(i).getTenKhoi()));
 			khoiLopAPI.add(klAPI);
 		}
-		
+
 		return khoiLopAPI;
 	}
 
@@ -458,6 +463,35 @@ public class DBUtils {
 		}
 		System.out.print(tenKH);
 		return tenKH;
+	}
+
+	public static ThongKeHocVienDK searchById(Connection conn, String idCourse) throws SQLException {
+		String sql = "select* from dbo.PhanMon as b\r\n" + "inner join (\r\n" + "select * from GiaoVien as gv\r\n"
+				+ "inner join (\r\n"
+				+ "select a.MaKhoaHoc, a.TenKhoaHoc, a.MoTa, a.SoBaiHoc, a.GiaTien, a.NgayCapNhat, a.HinhAnhMoTa, a.PhanMon, a.GiaoVien, a.TrangThaiDuyet, kq1.SLHocVienDK from dbo.KhoaHoc as a\r\n"
+				+ "full outer join (\r\n" + "select m.MaKhoaHoc, COUNT(m.MaHocVien) as SLHocVienDK\r\n"
+				+ "from dbo.DangKyKhoaHoc as m\r\n"
+				+ "group by MaKhoaHoc) kq1 on kq1.MaKhoaHoc = a.MaKhoaHoc) kq2 on gv.MaGiaoVien = kq2.GiaoVien) k on k.PhanMon = b.MaPhanMon\r\n"
+				+ "where k.MaKhoaHoc like ? ";
+
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, "%" + idCourse + "%");
+		ResultSet rs = pstm.executeQuery();
+
+		ThongKeHocVienDK tkKH = new ThongKeHocVienDK();
+		while (rs.next()) {
+			tkKH.setMaKhoaHoc(rs.getString("MaKhoaHoc"));
+			tkKH.setTenKhoaHoc(rs.getNString("TenKhoaHoc"));
+			tkKH.setTenPhanMon(rs.getNString("TenPhanMon"));
+			tkKH.setGiaoVien(rs.getNString("TenGiaoVien"));
+			tkKH.setMoTa(rs.getNString("MoTa"));
+			tkKH.setSoBaiHoc(rs.getInt("SoBaiHoc"));
+			tkKH.setGiaTien(rs.getBigDecimal("GiaTien").intValue());
+			tkKH.setNgayCapNhat(rs.getDate("NgayCapNhat"));
+			tkKH.setDaDangKy(rs.getInt("SLHocVienDK"));
+			tkKH.setHinhAnhMoTa(rs.getString("HinhAnhMoTa"));
+		}
+		return tkKH;
 	}
 
 	public static String getAlphaNumericString(int n) {

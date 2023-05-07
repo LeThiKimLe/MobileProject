@@ -116,9 +116,6 @@ public class DBUntilQLKH {
        
 	}
 	
-	
-	
-	
     public static KhoaHoc findKhoaHoc(Connection conn, String inmakh) throws SQLException {
         String sql = "select a.MaKhoaHoc,a.TenKhoaHoc,a.MoTa,a.SoBaiHoc,a.NgayCapNhat,a.GiaTien,a.PhanMon,a.GiaoVien,b.TenPhanMon ,c.TenGiaoVien\r\n"
         		+ "from KhoaHoc as a inner \r\n"
@@ -182,7 +179,60 @@ public class DBUntilQLKH {
   
     }
 	
+	public static boolean CheckHocVien(Connection conn, String maHocVien) throws SQLException {
+		String sql = "select * from dbo.HocVien where MaHocVien = ?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, maHocVien);
+		ResultSet rs = pstm.executeQuery();
+		while (rs.next()) {
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * Kiểm tra khóa học có tồn tại và được duyệt hay chưa
+	 * @param conn
+	 * @param idCourse
+	 * @return
+	 * @throws SQLException
+	 */
+	public static boolean CheckCourse(Connection conn, String idCourse) throws SQLException {
+		String sql = "select * from dbo.KhoaHoc Where MaKhoaHoc = ? AND TrangThaiDuyet='True'";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, idCourse);
+		ResultSet rs = pstm.executeQuery();
+		while (rs.next()) {
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * Kiểm tra khóa học đã được đăng ký hay chưa
+	 * @param conn
+	 * @param maHocVien
+	 * @param idCourse
+	 * @return
+	 * @throws SQLException
+	 */
+	public static boolean CheckDaDangKy(Connection conn, String maHocVien, String idCourse) throws SQLException {
+		String sql = "select * from dbo.DangKyKhoaHoc where MaHocVien=? and MaKhoaHoc=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, maHocVien);
+		pstm.setString(2, idCourse);
+		ResultSet rs = pstm.executeQuery();
+		while (rs.next()) {
+			return true;
+		}
+		return false;
+	}
 	
+	public static void DangKy(Connection conn, String maHocVien, String idCourse) throws SQLException {
+		String sql = "insert into dbo.DangKyKhoaHoc values (?, ?)";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, maHocVien);
+		pstm.setString(2, idCourse);
+		pstm.executeUpdate();
+	}
 }
 
 
