@@ -8,7 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import bean.*;
+import bean.API.BaiGiangAPI;
 import bean.API.KhoaHocHocVienAPI;
+import bean.API.VideoBaiHocAPI;
 
 public class DBUntilQLKH {
 	public static String pm = null;
@@ -292,6 +294,39 @@ public class DBUntilQLKH {
 			bh.add(bh1);
 		}
 		return bh;
+	}
+	
+	public static VideoBaiHocAPI VideoBaiGiangHocVien(Connection conn, String maBaiHoc, String maKhoaHoc)
+			throws SQLException {
+		String sql = "select * \r\n"
+				+ "from dbo.BaiHoc\r\n"
+				+ "where MaBaiHoc=? AND MaKhoaHoc=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, maBaiHoc);
+		pstm.setString(2, maKhoaHoc);
+		ResultSet rs = pstm.executeQuery();
+		VideoBaiHocAPI videoBaiHoc = new VideoBaiHocAPI();
+		while(rs.next()) {
+//			videoBaiHoc.setVideo(rs.getString("VideoBaiHoc"));
+			videoBaiHoc.setDescription(rs.getNString("TenBaiHoc"));
+		}
+		return videoBaiHoc;
+	}
+	
+	public static BaiGiangAPI BaiGiangHocVien(Connection conn, String maBaiHoc, String maKhoaHoc)
+			throws SQLException {
+		String sql = "select * \r\n"
+				+ "from dbo.BaiHoc\r\n"
+				+ "where MaBaiHoc=? AND MaKhoaHoc=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, maBaiHoc);
+		pstm.setString(2, maKhoaHoc);
+		ResultSet rs = pstm.executeQuery();
+		BaiGiangAPI baiGiang = new BaiGiangAPI();
+		while(rs.next()) {
+			baiGiang.setDocument(rs.getNString("MoTaNoiDung"));
+		}
+		return baiGiang;
 	}
 	
 }
