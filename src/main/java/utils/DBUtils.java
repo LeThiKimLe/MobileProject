@@ -514,5 +514,31 @@ public class DBUtils {
 
 		return sb.toString();
 	}
+	
+	public static String KiemTraUser(Connection conn, String maUser) throws SQLException {
+		String sql = "Select b.* from DangNhap a join HocVien b on a.MaHocVien=b.MaHocVien where b.MaHocVien=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, maUser);
+		ResultSet rs = pstm.executeQuery();
+
+		if (rs.next())
+			return rs.getString("MaHocVien");
+
+		return null;
+	}
+	
+	public static void CapNhatThongTinUser(Connection conn, HocVien hocVien) throws SQLException {
+		String sql = "UPDATE HocVien\r\n"
+				+ "SET TenHocVien=?, SDT=?, Email=?, NgaySinh=?, Image=?\r\n"
+				+ "WHERE MaHocVien=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, hocVien.getTenHocVien());
+		pstm.setString(2, hocVien.getSdt());
+		pstm.setString(3, hocVien.getEmail());
+		pstm.setDate(4, hocVien.getNgaySinh());
+		pstm.setString(5, hocVien.getImage());
+		pstm.setString(6, hocVien.getMaHocVien());
+		pstm.executeUpdate();
+	}
 
 }

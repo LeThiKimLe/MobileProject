@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import bean.*;
-import bean.GiaoVien;
 import bean.API.KhoaHocGiaoVienAPI;
 
 public class DBUntilQLGV {
@@ -149,6 +148,57 @@ public class DBUntilQLGV {
 			listKhGV.add(kh);
 		}
 		return listKhGV;
+	}
+
+	public static Integer SoLuongHocVienDangKyGiaoVien(Connection conn, String maGiaoVien, String maKhoaHoc, String maBaiHoc) throws SQLException {
+		String sql = "select kh.GiaoVien, COUNT(kh.MaHocVien) as SLHocVien\r\n"
+				+ "from BaiHoc as bh\r\n"
+				+ "full outer join (\r\n"
+				+ "select dk.MaHocVien, kh.*\r\n"
+				+ "from DangKyKhoaHoc dk\r\n"
+				+ "full outer join KhoaHoc kh on kh.MaKhoaHoc = dk.MaKhoaHoc\r\n"
+				+ "where kh.GiaoVien=? AND kh.MaKhoaHoc=?) as kh on kh.MaKhoaHoc = bh.MaKhoaHoc\r\n"
+				+ "where bh.MaBaiHoc=?\r\n"
+				+ "group by kh.GiaoVien";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, maGiaoVien);
+		pstm.setString(2, maKhoaHoc);
+		pstm.setString(3, maBaiHoc);
+		ResultSet rs = pstm.executeQuery();
+		if(rs.next())
+			return rs.getInt("SLHocVien");
+		return null;
+	}
+	
+	public static List<HocVien> DanhSachHocVienDangKyGiaoVien(Connection conn, String maGiaoVien, String maKhoaHoc, String maBaiHoc) throws SQLException{
+		String sql = "select hv.* from HocVien as hv\r\n"
+				+ "inner join (\r\n"
+				+ "select kh.*, bh.MaBaiHoc\r\n"
+				+ "from BaiHoc as bh\r\n"
+				+ "full outer join (\r\n"
+				+ "select dk.MaHocVien, kh.*\r\n"
+				+ "from DangKyKhoaHoc dk\r\n"
+				+ "full outer join KhoaHoc kh on kh.MaKhoaHoc = dk.MaKhoaHoc\r\n"
+				+ "where kh.GiaoVien=? AND kh.MaKhoaHoc=?) as kh on kh.MaKhoaHoc = bh.MaKhoaHoc\r\n"
+				+ "where bh.MaBaiHoc=?) kh on kh.MaHocVien = hv.MaHocVien";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, maGiaoVien);
+		pstm.setString(2, maKhoaHoc);
+		pstm.setString(3, maBaiHoc);
+		ResultSet rs = pstm.executeQuery();
+		
+		List<HocVien> listHV = new ArrayList<HocVien>();
+		while(rs.next()) {
+			HocVien hv = new HocVien();
+			hv.setMaHocVien(rs.getString("MaHocVien"));
+			hv.setTenHocVien(rs.getNString("TenHocVien"));
+			hv.setNgaySinh(rs.getDate("NgaySinh"));
+			hv.setSdt(rs.getString("SDT"));
+			hv.setEmail(rs.getString("Email"));
+			hv.setImage(rs.getString("Image"));
+			listHV.add(hv);
+		}
+		return listHV;
 	}
 }
 

@@ -328,5 +328,4 @@ public class DBUntilQLKH {
 		}
 		return baiGiang;
 	}
-	
 }
