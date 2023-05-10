@@ -62,6 +62,20 @@ public class DBUntilQLGV {
         }
         return null;
     }
+    public static Boolean checkMaGiaoVien(Connection conn, String inmagv) throws SQLException {
+        String sql = "Select MaGiaoVien,TenGiaoVien,SDT,CCCD,DiaChi,NgayKyKet from GiaoVien a where a.MaGiaoVien=?";
+ 
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        
+        pstm.setString(1, inmagv);
+        
+        //"Select a.id, a.name, a.address from Student a where a.id=12";
+        ResultSet rs = pstm.executeQuery();
+ 
+        if(rs.next())
+        	return true;
+        return false;
+    }
 	public static void updateGiaoVien(Connection conn, GiaoVien gv) throws SQLException {
         String sql = "Update GiaoVien set TenGiaoVien=?, SDT=?,CCCD=?,DiaChi=?,NgayKyKet=? where MaGiaoVien=? ";
  
