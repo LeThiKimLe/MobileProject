@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import bean.*;
 import bean.API.KhoaHocGiaoVienAPI;
+import bean.API.SoLuongHocVienDangKyKhoaHoc;
 
 public class DBUntilQLGV {
 	public static List<GiaoVien> listGiaoVien(Connection conn) throws SQLException {
@@ -213,6 +214,28 @@ public class DBUntilQLGV {
 			listHV.add(hv);
 		}
 		return listHV;
+	}
+	
+	public static List<SoLuongHocVienDangKyKhoaHoc> DanhSachSoLuongHocVienDangKyKhoaHoc(Connection conn) throws SQLException{
+		String sql = "select gv.TenGiaoVien, tk.TenKhoaHoc, tk.SLDangKy from GiaoVien as gv\r\n"
+				+ "inner join (\r\n"
+				+ "select kh.*, tk.SLDangKy from KhoaHoc as kh\r\n"
+				+ "inner join(\r\n"
+				+ "select top 5 dk.MaKhoaHoc, COUNT(dk.MaHocVien) as SLDangKy\r\n"
+				+ "from DangKyKhoaHoc as dk\r\n"
+				+ "group by dk.MaKhoaHoc\r\n"
+				+ "order by SLDangKy DESC) tk on tk.MaKhoaHoc=kh.MaKhoaHoc ) tk on tk.GiaoVien = gv.MaGiaoVien";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		ResultSet rs = pstm.executeQuery();
+		List<SoLuongHocVienDangKyKhoaHoc> listSoLuong = new ArrayList<SoLuongHocVienDangKyKhoaHoc>();
+		while(rs.next()) {
+			SoLuongHocVienDangKyKhoaHoc soLuong = new SoLuongHocVienDangKyKhoaHoc();
+			soLuong.setGiaoVien(rs.getNString("TenGiaoVien"));
+			soLuong.setTenKhoaHoc(rs.getNString("TenKhoaHoc"));
+			soLuong.setSoLuongDangKy(rs.getInt("SLDangKy"));
+			listSoLuong.add(soLuong);
+		}
+		return listSoLuong;
 	}
 }
 

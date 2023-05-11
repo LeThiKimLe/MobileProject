@@ -328,4 +328,14 @@ public class DBUntilQLKH {
 		}
 		return baiGiang;
 	}
+	
+	public static Integer SoLuongHocVien(Connection conn) throws SQLException {
+		String sql = "select COUNT(*) as SoLuong\r\n"
+				+ "from dbo.HocVien";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		ResultSet rs = pstm.executeQuery();
+		if(rs.next())
+			return rs.getInt("SoLuong");
+		return null;
+	}
 }
