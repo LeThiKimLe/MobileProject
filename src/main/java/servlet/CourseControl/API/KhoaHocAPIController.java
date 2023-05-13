@@ -8,6 +8,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import bean.KhoaHoc;
+import bean.PhanMon;
 import bean.ThongKeHocVienDK;
 import bean.API.KhoiLopAPI;
 import dao.ConnectDataBase;
@@ -18,7 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import utils.DBUtils;
 
-@WebServlet(urlPatterns = { "/api/general/listCourse", "/api/general/courseDetail", "/api/general/listSubject" })
+@WebServlet(urlPatterns = { "/api/general/listCourse", "/api/general/courseDetail", "/api/general/listSubject", "/api/general/subject" })
 public class KhoaHocAPIController extends HttpServlet {
 
 	/**
@@ -49,6 +50,19 @@ public class KhoaHocAPIController extends HttpServlet {
 				ObjectMapper obj = new ObjectMapper();
 				conn.close();
 				obj.writeValue(resp.getOutputStream(), list);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (path.contains("/api/general/subject"))
+		{
+			List<PhanMon> listPM =null;
+			try {
+				listPM = DBUtils.LayDSPhanMon(conn);
+				ObjectMapper obj = new ObjectMapper();
+				conn.close();
+				obj.writeValue(resp.getOutputStream(), listPM);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

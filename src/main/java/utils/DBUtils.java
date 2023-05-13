@@ -540,5 +540,22 @@ public class DBUtils {
 		pstm.setString(6, hocVien.getMaHocVien());
 		pstm.executeUpdate();
 	}
+	
+	public static List<PhanMon> LayDSPhanMon(Connection conn) throws SQLException {
+		String sql = "Select MaPhanMon, TenPhanMon from PhanMon";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		ResultSet rs = pstm.executeQuery();
 
+		PhanMon tkKH = new PhanMon();
+		List<PhanMon> phanMon = new ArrayList<PhanMon>();
+		while (rs.next()) {
+			tkKH = new PhanMon();
+			tkKH.setMaPhanMon(rs.getString("MaPhanMon"));
+			tkKH.setTenPhanMon(rs.getNString("TenPhanMon"));
+			phanMon.add(tkKH);
+		}
+		return phanMon;
+	}
+
+	
 }
