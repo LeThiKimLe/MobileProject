@@ -5,6 +5,7 @@ public class SoLuongHocVienDangKyKhoaHoc {
 	private String giaoVien;
 	private int soLuongDangKy;
 	private String maKhoaHoc;
+	private String hinhAnhMoTa;
 	/**
 	 * @return the tenKhoaHoc
 	 */
@@ -46,6 +47,13 @@ public class SoLuongHocVienDangKyKhoaHoc {
 	}
 	public void setMaKhoaHoc(String maKhoaHoc) {
 		this.maKhoaHoc = maKhoaHoc;
+	}
+	
+	public String getHinhAnhMoTa() {
+		return hinhAnhMoTa;
+	}
+	public void setHinhAnhMoTa(String hinhAnhMoTa) {
+		this.hinhAnhMoTa = hinhAnhMoTa;
 	}
 	
 	

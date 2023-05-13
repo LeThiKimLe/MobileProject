@@ -217,7 +217,7 @@ public class DBUntilQLGV {
 	}
 	
 	public static List<SoLuongHocVienDangKyKhoaHoc> DanhSachSoLuongHocVienDangKyKhoaHoc(Connection conn) throws SQLException{
-		String sql = "select gv.TenGiaoVien, tk.MaKhoaHoc ,tk.TenKhoaHoc, tk.SLDangKy from GiaoVien as gv\r\n"
+		String sql = "select gv.TenGiaoVien, tk.MaKhoaHoc, HinhAnhMoTa ,tk.TenKhoaHoc, tk.SLDangKy from GiaoVien as gv\r\n"
 				+ "inner join (\r\n"
 				+ "select kh.*, tk.SLDangKy from KhoaHoc as kh\r\n"
 				+ "inner join(\r\n"
@@ -234,6 +234,7 @@ public class DBUntilQLGV {
 			soLuong.setGiaoVien(rs.getNString("TenGiaoVien"));
 			soLuong.setTenKhoaHoc(rs.getNString("TenKhoaHoc"));
 			soLuong.setSoLuongDangKy(rs.getInt("SLDangKy"));
+			soLuong.setHinhAnhMoTa(rs.getString("HinhAnhMoTa"));
 			listSoLuong.add(soLuong);
 		}
 		return listSoLuong;
