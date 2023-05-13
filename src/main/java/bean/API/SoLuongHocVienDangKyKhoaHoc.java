@@ -4,6 +4,7 @@ public class SoLuongHocVienDangKyKhoaHoc {
 	private String tenKhoaHoc;
 	private String giaoVien;
 	private int soLuongDangKy;
+	private String maKhoaHoc;
 	/**
 	 * @return the tenKhoaHoc
 	 */
@@ -39,6 +40,12 @@ public class SoLuongHocVienDangKyKhoaHoc {
 	 */
 	public void setSoLuongDangKy(int soLuongDangKy) {
 		this.soLuongDangKy = soLuongDangKy;
+	}
+	public String getMaKhoaHoc() {
+		return maKhoaHoc;
+	}
+	public void setMaKhoaHoc(String maKhoaHoc) {
+		this.maKhoaHoc = maKhoaHoc;
 	}
 	
 	
