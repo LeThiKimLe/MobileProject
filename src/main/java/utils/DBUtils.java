@@ -138,7 +138,8 @@ public class DBUtils {
 			Date ngay_sinh = new Date(rs.getDate("NgaySinh").getTime());
 			String so_dienthoai = rs.getString("SDT");
 			String emailString = rs.getString("Email");
-			HocVien hv = new HocVien(maHocVien, ten_hocvien, ngay_sinh, so_dienthoai, emailString);
+			String image = rs.getString("Image");
+			HocVien hv = new HocVien(maHocVien, ten_hocvien, ngay_sinh, so_dienthoai, emailString, image);
 			return hv;
 		}
 		return null;
