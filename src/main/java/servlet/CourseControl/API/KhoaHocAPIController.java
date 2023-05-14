@@ -8,6 +8,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import bean.KhoaHoc;
+import bean.KhoiLop;
 import bean.PhanMon;
 import bean.ThongKeHocVienDK;
 import bean.API.KhoiLopAPI;
@@ -19,7 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import utils.DBUtils;
 
-@WebServlet(urlPatterns = { "/api/general/listCourse", "/api/general/courseDetail", "/api/general/listSubject", "/api/general/subject" })
+@WebServlet(urlPatterns = { "/api/general/listCourse", "/api/general/courseDetail", "/api/general/listSubject", "/api/general/subject", "/api/general/khoiLop"})
 public class KhoaHocAPIController extends HttpServlet {
 
 	/**
@@ -68,13 +69,26 @@ public class KhoaHocAPIController extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		else {
+		else if (path.contains("/api/general/listSubject")){
 			List<KhoiLopAPI> listKhoiLopAPI = null;
 			try {
 				listKhoiLopAPI = DBUtils.khoaHocTheoKhoiLop(conn);
 				ObjectMapper obj = new ObjectMapper();
 				conn.close();
 				obj.writeValue(resp.getOutputStream(), listKhoiLopAPI);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (path.contains("/api/general/khoiLop"))
+		{
+			List<KhoiLop> khoiLop = null;
+			try {
+				khoiLop = DBUtils.LayAllKhoiLop(conn);
+				ObjectMapper obj = new ObjectMapper();
+				conn.close();
+				obj.writeValue(resp.getOutputStream(), khoiLop);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -111,5 +125,21 @@ public class KhoaHocAPIController extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		else if (path.contains("/api/general/listSubject"))
+		{
+			String gradeId = (String) req.getParameter("maKhoi");
+			List<KhoaHoc> khoaHoc = null;
+			try {
+				khoaHoc = DBUtils.khoaHocTheoTungKhoiLop(conn, gradeId);
+				ObjectMapper obj = new ObjectMapper();
+				conn.close();
+				obj.writeValue(resp.getOutputStream(), khoaHoc);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+
 	}
 }

@@ -425,6 +425,17 @@ public class DBUtils {
 
 		return khoiLopAPI;
 	}
+	
+	public static List<KhoaHoc> khoaHocTheoTungKhoiLop(Connection conn, String maKhoi) throws SQLException {
+		List<KhoiLopAPI> theoKhoi = khoaHocTheoKhoiLop(conn);
+		List<KhoaHoc> kQ = new ArrayList<KhoaHoc>();
+		for (int i = 0; i < theoKhoi.size(); i++) {
+			if (theoKhoi.get(i).getKhoi().getMaKhoi().compareTo(maKhoi)==0)
+				return theoKhoi.get(i).getKhoahoc();
+		}
+		return kQ;
+	}
+
 
 	public static List<KhoaHoc> searchByName(Connection conn, String name) throws SQLException {
 		String sql = "select a.GiaoVien, a.GiaTien, a.HinhAnhMoTa, a.MaKhoaHoc, a.MoTa, a.NgayCapNhat, a.PhanMon, a.SoBaiHoc, a.TenKhoaHoc, gv.TenGiaoVien \r\n"
