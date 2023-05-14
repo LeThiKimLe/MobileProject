@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import bean.GiaoVien;
 import bean.KhoaHoc;
 import bean.KhoiLop;
 import bean.PhanMon;
@@ -18,9 +19,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import utils.DBUntilQLGV;
 import utils.DBUtils;
 
-@WebServlet(urlPatterns = { "/api/general/listCourse", "/api/general/courseDetail", "/api/general/listSubject", "/api/general/subject", "/api/general/khoiLop"})
+@WebServlet(urlPatterns = { "/api/general/listCourse", "/api/general/courseDetail", "/api/general/listSubject", "/api/general/subject", "/api/general/khoiLop", "/api/general/getTeacher"})
 public class KhoaHocAPIController extends HttpServlet {
 
 	/**
@@ -138,8 +140,22 @@ public class KhoaHocAPIController extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 		}
+		else if (path.contains("/api/general/getTeacher"))
+		{
+			String courseId = (String) req.getParameter("courseId");
+			GiaoVien gv = new GiaoVien();
+			try {
+				gv = DBUntilQLGV.findGiaoVienByCourse(conn, courseId);
+				ObjectMapper obj = new ObjectMapper();
+				conn.close();
+				obj.writeValue(resp.getOutputStream(), gv);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 
 	}
 }

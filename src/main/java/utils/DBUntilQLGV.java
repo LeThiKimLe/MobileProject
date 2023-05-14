@@ -239,6 +239,31 @@ public class DBUntilQLGV {
 		}
 		return listSoLuong;
 	}
+	
+	 public static GiaoVien findGiaoVienByCourse(Connection conn, String courseId) throws SQLException {
+	        String sql = "Select GiaoVien.* from GiaoVien join KhoaHoc on GiaoVien.MaGiaoVien = KhoaHoc.GiaoVien where MaKhoaHoc=?";
+	 
+	        PreparedStatement pstm = conn.prepareStatement(sql);
+	        
+	        pstm.setString(1, courseId);
+	        
+	        //"Select a.id, a.name, a.address from Student a where a.id=12";
+	        ResultSet rs = pstm.executeQuery();
+	 
+	        while (rs.next()) {
+	        	String magv = rs.getString("MaGiaoVien");
+	            String tengv = rs.getString("TenGiaoVien");  
+	            String sdt = rs.getString("SDT");
+	            String email = rs.getString("Email");
+	            GiaoVien gVien = new GiaoVien(magv ,tengv,sdt,email);   
+	            return gVien;
+	        }
+	        return null;
+	    }
+	
+	
+	
+	
 }
 
 
