@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import utils.DBUntilQLGV;
 import utils.DBUtils;
 
-@WebServlet(urlPatterns = { "/api/general/listCourse", "/api/general/courseDetail", "/api/general/listSubject", "/api/general/subject", "/api/general/khoiLop", "/api/general/getTeacher"})
+@WebServlet(urlPatterns = { "/api/general/listCourse", "/api/general/courseDetail", "/api/general/listSubject", "/api/general/subject", "/api/general/khoiLop", "/api/general/getTeacher", "/api/general/search"})
 public class KhoaHocAPIController extends HttpServlet {
 
 	/**
@@ -156,6 +156,19 @@ public class KhoaHocAPIController extends HttpServlet {
 			}
 		}
 		
-
+		else if (path.contains("/api/general/search"))
+		{
+			String key = (String) req.getParameter("key");
+			List<KhoaHoc> khoaHoc = null;
+			try {
+				khoaHoc = DBUtils.searchByName(conn, key);
+				ObjectMapper obj = new ObjectMapper();
+				conn.close();
+				obj.writeValue(resp.getOutputStream(), khoaHoc);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }
