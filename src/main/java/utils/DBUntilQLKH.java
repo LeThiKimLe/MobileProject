@@ -299,16 +299,16 @@ public class DBUntilQLKH {
 	public static VideoBaiHocAPI VideoBaiGiangHocVien(Connection conn, String maBaiHoc, String maKhoaHoc)
 			throws SQLException {
 		String sql = "select * \r\n"
-				+ "from dbo.BaiHoc\r\n"
-				+ "where MaBaiHoc=? AND MaKhoaHoc=?";
+				+ "from dbo.TaiNguyen\r\n"
+				+ "where MaBaiHoc=? ";
 		PreparedStatement pstm = conn.prepareStatement(sql);
 		pstm.setString(1, maBaiHoc);
-		pstm.setString(2, maKhoaHoc);
 		ResultSet rs = pstm.executeQuery();
 		VideoBaiHocAPI videoBaiHoc = new VideoBaiHocAPI();
+		 
 		while(rs.next()) {
 //			videoBaiHoc.setVideo(rs.getString("VideoBaiHoc"));
-			videoBaiHoc.setDescription(rs.getNString("TenBaiHoc"));
+			videoBaiHoc.setDescription(rs.getNString("LyThuyet"));		
 		}
 		return videoBaiHoc;
 	}
