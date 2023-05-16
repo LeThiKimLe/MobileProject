@@ -1,7 +1,7 @@
 package bean.API;
 
 public class KhoaHocHocVienAPI {
-	private String idCourse;
+	private String maKhoaHoc;
 	private String tenKhoaHoc;
 	private String tenPhanMon;
 	private String giaoVien;
@@ -9,15 +9,7 @@ public class KhoaHocHocVienAPI {
 	/**
 	 * @return the idCourse
 	 */
-	public String getIdCourse() {
-		return idCourse;
-	}
-	/**
-	 * @param idCourse the idCourse to set
-	 */
-	public void setIdCourse(String idCourse) {
-		this.idCourse = idCourse;
-	}
+	
 	/**
 	 * @return the tenKhoaHoc
 	 */
@@ -65,6 +57,14 @@ public class KhoaHocHocVienAPI {
 	 */
 	public void setHinhAnhMoTa(String hinhAnhMoTa) {
 		this.hinhAnhMoTa = hinhAnhMoTa;
+	}
+	
+	public String getMaKhoaHoc() {
+		return maKhoaHoc;
+	}
+	
+	public void setMaKhoaHoc(String maKhoaHoc) {
+		this.maKhoaHoc = maKhoaHoc;
 	}
 	
 	

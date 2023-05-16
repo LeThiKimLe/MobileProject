@@ -264,7 +264,7 @@ public class DBUntilQLKH {
 		List<KhoaHocHocVienAPI> khhv = new ArrayList<KhoaHocHocVienAPI>();
 		while(rs.next()) {
 			KhoaHocHocVienAPI khhv1 = new KhoaHocHocVienAPI();
-			khhv1.setIdCourse(rs.getString("MaKhoaHoc"));
+			khhv1.setMaKhoaHoc(rs.getString("MaKhoaHoc"));
 			khhv1.setTenKhoaHoc(rs.getNString("TenKhoaHoc"));
 			khhv1.setTenPhanMon(rs.getNString("TenPhanMon"));
 			khhv1.setGiaoVien(rs.getNString("TenGiaoVien"));

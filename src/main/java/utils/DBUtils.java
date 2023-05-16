@@ -12,6 +12,7 @@ import java.util.List;
 
 import bean.*;
 import bean.API.KhoiLopAPI;
+import bean.API.SoDuAPI;
 
 public class DBUtils {
 
@@ -158,6 +159,26 @@ public class DBUtils {
 		while (rs.next()) {
 			BigDecimal sodu = rs.getBigDecimal("SoDu");
 			return sodu;
+		}
+		return null;
+	}
+	
+	public static SoDuAPI LaySoDuVi(Connection conn, String maHocVien) throws SQLException {
+		String sql = "Select * from ViThanhToan a where a.MaHocVien=?";
+
+		PreparedStatement pstm = conn.prepareStatement(sql);
+
+		pstm.setString(1, maHocVien);
+
+		// "Select a.id, a.name, a.address from Student a where a.id=12";
+		ResultSet rs = pstm.executeQuery();
+
+		while (rs.next())
+		{
+			int sodu = rs.getBigDecimal("SoDu").intValue();
+			Date ngayCapNhat = rs.getDate("NgayCapNhat");
+			SoDuAPI budget= new SoDuAPI(sodu, ngayCapNhat);
+			return budget;
 		}
 		return null;
 	}
