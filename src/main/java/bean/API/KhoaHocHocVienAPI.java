@@ -3,7 +3,7 @@ package bean.API;
 public class KhoaHocHocVienAPI {
 	private String maKhoaHoc;
 	private String tenKhoaHoc;
-	private String tenPhanMon;
+	private String phanMon;
 	private String giaoVien;
 	private String hinhAnhMoTa;
 	/**
@@ -25,14 +25,14 @@ public class KhoaHocHocVienAPI {
 	/**
 	 * @return the tenPhanMon
 	 */
-	public String getTenPhanMon() {
-		return tenPhanMon;
+	public String getPhanMon() {
+		return phanMon;
 	}
 	/**
 	 * @param tenPhanMon the tenPhanMon to set
 	 */
-	public void setTenPhanMon(String tenPhanMon) {
-		this.tenPhanMon = tenPhanMon;
+	public void setPhanMon(String tenPhanMon) {
+		this.phanMon = tenPhanMon;
 	}
 	/**
 	 * @return the giaoVien

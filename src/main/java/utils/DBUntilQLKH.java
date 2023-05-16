@@ -266,7 +266,7 @@ public class DBUntilQLKH {
 			KhoaHocHocVienAPI khhv1 = new KhoaHocHocVienAPI();
 			khhv1.setMaKhoaHoc(rs.getString("MaKhoaHoc"));
 			khhv1.setTenKhoaHoc(rs.getNString("TenKhoaHoc"));
-			khhv1.setTenPhanMon(rs.getNString("TenPhanMon"));
+			khhv1.setPhanMon(rs.getNString("TenPhanMon"));
 			khhv1.setGiaoVien(rs.getNString("TenGiaoVien"));
 			khhv1.setHinhAnhMoTa(rs.getString("HinhAnhMoTa"));
 			khhv.add(khhv1);
