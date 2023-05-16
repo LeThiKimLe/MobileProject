@@ -589,6 +589,96 @@ public class DBUtils {
 		}
 		return phanMon;
 	}
+	
+	public static DonHang getDonHang(Connection conn, String maDonHang) throws SQLException
+	{
+		String sql = "SELECT * FROM DonHang where MaDonHang=?";
+		PreparedStatement pstm=null;
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setString(1, maDonHang);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+        ResultSet rs = pstm.executeQuery();
+        DonHang dh = null;
+        while (rs.next()) {
+        	dh=new DonHang();
+			dh.setMaDonHang(rs.getString("MaDonHang"));
+			dh.setTongSoTien(rs.getBigDecimal("TongSoTien").intValue());
+			dh.setTinhTrangXacNhan(rs.getBoolean("TinhTrangXacNhan"));
+			dh.setNgayThanhToan(rs.getDate("NgayThanhToan"));
+			dh.setHocVien(rs.getString("MaHocVien"));
+		}
+		return dh;
+	}
 
+
+	public static void ThanhToanHoaDon(Connection conn, String maHoaDon, String maHocVien) throws SQLException 
+	{
+		DonHang des = null;
+		try {
+			des= getDonHang(conn, maHoaDon);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		int newSodu= LaySoDu(conn, maHocVien).intValue() - des.getTongSoTien();
+        String sql = "Update ViThanhToan set SoDu=?, NgayCapNhat=GETDATE() where MaHocVien=?";
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setBigDecimal(1, BigDecimal.valueOf(newSodu));
+        pstm.setString(2, maHocVien);
+        pstm.executeUpdate();
+        ViThanhToan viThanhToan= new ViThanhToan(conn, maHocVien);
+        viThanhToan.PhatSinhGiaoDich(conn, maHoaDon, des.getTongSoTien());
+ 
+        sql = "Update DonHang set NgayThanhToan=GETDATE() where MaDonHang=?";
+        pstm = conn.prepareStatement(sql);
+        pstm.setString(1, maHoaDon);
+        pstm.executeUpdate();
+    
+    }
+	
+	public static int checkHoaDon(Connection conn, String maHoaDon, String maHocVien) throws SQLException
+	{
+		DonHang dh = getDonHang(conn,maHoaDon);
+		if (dh==null)
+			return 0; //Đơn không hợp lệ
+		
+		if (!dh.getHocVien().equals(maHocVien))
+			return -1;
+		
+		// Đơn đã được duyệt
+		if (dh.isTinhTrangXacNhan()) 
+			if (dh.getNgayThanhToan()!=null) //Đơn đã thanh toán
+				return 1;
+			else
+				return 2;  //Đơn chưa thanh toán ->ok
+		else
+			return 3;  //Đơn chưa được duyệt
+		
+	}
+	
+	public static List<String> LayDSDaDK(Connection conn, String maHoaDon) throws SQLException
+	{
+		String sql = "Select * from DoTrongDonHang where maDonHang=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1,maHoaDon);
+		ResultSet rs = pstm.executeQuery();
+
+		String maKH = null;
+		List<String> listKH = new ArrayList<String>();
+		while (rs.next()) {
+			maKH=rs.getString("MaKhoaHoc");
+			listKH.add(maKH);
+			
+		}
+		return listKH;
+		
+	}
+	
 	
 }

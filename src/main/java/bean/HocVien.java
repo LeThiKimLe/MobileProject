@@ -88,7 +88,9 @@ public class HocVien implements java.io.Serializable {
 		this.ngaySinh = ngaySinh;
 		this.sdt = sdt;
 		this.email = email;
+		
 	}
+	
 	
 	public HocVien(Connection conn,String tenHocVien, Date ngaySinh, String sdt, String email) throws SQLException {
 		this.maHocVien=autoID(conn);
