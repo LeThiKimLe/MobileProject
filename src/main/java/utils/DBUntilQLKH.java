@@ -297,10 +297,10 @@ public class DBUntilQLKH {
 		return bh;
 	}
 	
-	public static VideoBaiHocAPI VideoBaiGiangHocVien(Connection conn, String maBaiHoc, String maKhoaHoc)
+	public static VideoBaiHocAPI VideoBaiGiangHocVien(Connection conn, String maBaiHoc)
 			throws SQLException {
 		String sql = "select * \r\n"
-				+ "from dbo.TaiNguyen\r\n"
+				+ "from dbo.BaiHoc\r\n"
 				+ "where MaBaiHoc=? ";
 		PreparedStatement pstm = conn.prepareStatement(sql);
 		pstm.setString(1, maBaiHoc);
@@ -309,23 +309,25 @@ public class DBUntilQLKH {
 		 
 		while(rs.next()) {
 //			videoBaiHoc.setVideo(rs.getString("VideoBaiHoc"));
-			videoBaiHoc.setDescription(rs.getNString("LyThuyet"));		
+			videoBaiHoc.setTenBH(rs.getNString("TenBaiHoc"));
+			videoBaiHoc.setDescription(rs.getNString("MoTaNoiDung"));		
 		}
 		return videoBaiHoc;
 	}
 	
-	public static BaiGiangAPI BaiGiangHocVien(Connection conn, String maBaiHoc, String maKhoaHoc)
+	public static BaiGiangAPI BaiGiangHocVien(Connection conn, String maBaiHoc)
 			throws SQLException {
 		String sql = "select * \r\n"
-				+ "from dbo.BaiHoc\r\n"
-				+ "where MaBaiHoc=? AND MaKhoaHoc=?";
+				+ "from dbo.TaiNguyen\r\n"
+				+ "where MaBaiHoc=?";
 		PreparedStatement pstm = conn.prepareStatement(sql);
 		pstm.setString(1, maBaiHoc);
-		pstm.setString(2, maKhoaHoc);
+		//pstm.setString(2, maKhoaHoc);
 		ResultSet rs = pstm.executeQuery();
 		BaiGiangAPI baiGiang = new BaiGiangAPI();
 		while(rs.next()) {
-			baiGiang.setDocument(rs.getNString("MoTaNoiDung"));
+			baiGiang.setDocument(rs.getNString("BaiTap"));
+			baiGiang.setLyThuyet(rs.getNString("LyThuyet"));
 		}
 		return baiGiang;
 	}

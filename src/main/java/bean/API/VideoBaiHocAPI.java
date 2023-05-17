@@ -4,6 +4,7 @@ public class VideoBaiHocAPI {
 	private String result;
 	private String video;
 	private String description;
+	private String tenBH;
 	/**
 	 * @return the result
 	 */
@@ -40,9 +41,20 @@ public class VideoBaiHocAPI {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public String getTenBH() {
+		return tenBH;
+	}
+	
+	public void setTenBH(String tenBH) {
+		// TODO Auto-generated method stub
+		this.tenBH = tenBH;
+		
+	}
+	
 	@Override
 	public String toString() {
-		return "VideoBaiHocAPI [result=" + result + ", video=" + video + ", description=" + description + "]";
+		return "VideoBaiHocAPI [result=" + result + ", video=" + video + ", description=" + description + ",tenBH="+tenBH+"]";
 	}
 	
 }

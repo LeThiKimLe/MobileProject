@@ -2,6 +2,7 @@ package bean.API;
 
 public class BaiGiangAPI {
 	private String result;
+	private String lythuyet;
 	private String document;
 	/**
 	 * @return the result
@@ -26,6 +27,14 @@ public class BaiGiangAPI {
 	 */
 	public void setDocument(String document) {
 		this.document = document;
+	}
+	
+	public String getLyThuyet() {
+		return lythuyet;
+	}
+	public void setLyThuyet(String lyThuyet) {
+		// TODO Auto-generated method stub
+		this.lythuyet = lyThuyet;
 	}
 
 }

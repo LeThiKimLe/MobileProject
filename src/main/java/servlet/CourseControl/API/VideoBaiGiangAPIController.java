@@ -43,14 +43,13 @@ public class VideoBaiGiangAPIController extends HttpServlet {
 		}
 		String path = req.getContextPath() + req.getServletPath();
 		String maBaiHoc = req.getParameter("maBaiHoc");
-		String maKhoaHoc = req.getParameter("maKhoaHoc");
+		//String maKhoaHoc = req.getParameter("maKhoaHoc");
 		
 		if (path.contains("/api/student/getLecture")) {
 			VideoBaiHocAPI videoBaiHoc = new VideoBaiHocAPI();
 			try {
-				videoBaiHoc = DBUntilQLKH.VideoBaiGiangHocVien(conn, maBaiHoc, maKhoaHoc);
-				if ((videoBaiHoc.getDescription() == null && videoBaiHoc.getVideo() == null) || maBaiHoc == null
-						|| maKhoaHoc == null) {
+				videoBaiHoc = DBUntilQLKH.VideoBaiGiangHocVien(conn, maBaiHoc);
+				if ((videoBaiHoc.getDescription() == null && videoBaiHoc.getVideo() == null) || maBaiHoc == null) {
 					videoBaiHoc.setResult("fail");
 				} else {
 					videoBaiHoc.setResult("success");
@@ -65,7 +64,7 @@ public class VideoBaiGiangAPIController extends HttpServlet {
 		}else {
 			BaiGiangAPI baiGiang = new BaiGiangAPI();
 			try {
-				baiGiang = DBUntilQLKH.BaiGiangHocVien(conn, maBaiHoc, maKhoaHoc);
+				baiGiang = DBUntilQLKH.BaiGiangHocVien(conn, maBaiHoc);
 				if(baiGiang.getDocument() == null) {
 					baiGiang.setResult("fail");
 				}
