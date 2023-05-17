@@ -22,8 +22,10 @@ public class DonHang implements java.io.Serializable {
 	private String hocVien;
 	private int tongSoTien;
 	private Date ngayThanhToan;
-	private boolean tinhTrangXacNhan;
-	private String ngayTao;
+	private Boolean tinhTrangXacNhan;
+	
+
+	private Date ngayTao;
 
 	public DonHang() {
 		tongSoTien=0;
@@ -103,11 +105,11 @@ public class DonHang implements java.io.Serializable {
 	}
 	
 	public Date getNgayTao() {
-		return this.ngayThanhToan;
+		return this.ngayTao;
 	}
 
 	public void setNgayTao(Date ngayTao) {
-		this.ngayTao = ngayThanhToan.toString();
+		this.ngayTao = ngayTao;
 	}
 	
 	public void ThemItem( Connection conn,String maKhoaHoc, int giatien) throws SQLException
@@ -174,7 +176,7 @@ public class DonHang implements java.io.Serializable {
 		this.tongSoTien = 0;
 		this.ngayThanhToan=null;
 		this.tinhTrangXacNhan=false;
-		this.ngayTao= ngayTao.toString();
+		this.ngayTao= ngayTao;
 		this.TaoMoiHoaDon(conn);
 	}
 	
@@ -186,7 +188,7 @@ public class DonHang implements java.io.Serializable {
         pstm.setBigDecimal(2, BigDecimal.valueOf(this.tongSoTien));
         pstm.setDate(3, this.ngayThanhToan);
         pstm.setString(4, this.hocVien);
-        pstm.setDate(5, Date.valueOf(this.ngayTao));
+        pstm.setDate(5, this.ngayTao);
         pstm.setBoolean(6, this.tinhTrangXacNhan);
         pstm.executeUpdate();
 	}
@@ -224,12 +226,13 @@ public class DonHang implements java.io.Serializable {
         pstm.executeUpdate();
 	}
 	
-	public boolean isTinhTrangXacNhan() {
+	public Boolean getTinhTrangXacNhan() {
 		return tinhTrangXacNhan;
 	}
 
-	public void setTinhTrangXacNhan(boolean tinhTrangXacNhan) {
+	public void setTinhTrangXacNhan(Boolean tinhTrangXacNhan) {
 		this.tinhTrangXacNhan = tinhTrangXacNhan;
 	}
+	
 	
 }

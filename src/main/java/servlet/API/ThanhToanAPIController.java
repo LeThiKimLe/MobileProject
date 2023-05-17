@@ -16,6 +16,7 @@ import bean.DonHang;
 import bean.HocVien;
 import bean.KhoaHoc;
 import bean.API.DangKyKHMessageAPI;
+import bean.API.DonHangAPI;
 import bean.API.HocVienAPI;
 import bean.API.SoDuAPI;
 import dao.ConnectDataBase;
@@ -27,7 +28,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import utils.DBUntilQLKH;
 import utils.DBUtils;
 
-@WebServlet(urlPatterns = { "/api/student/getBalance", "/api/student/regisRequest", "/api/student/payBill"})
+@WebServlet(urlPatterns = {"/api/student/getBalance", "/api/student/regisRequest", "/api/student/payBill", "/api/student/getBill"})
 public class ThanhToanAPIController extends HttpServlet {
 
 	/**
@@ -88,6 +89,44 @@ public class ThanhToanAPIController extends HttpServlet {
 				ObjectMapper obj = new ObjectMapper();
 				conn.close();
 				obj.writeValue(response.getOutputStream(), new_budget);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (path.contains("/api/student/getBill")) {
+			String maHoaDon = (String) request.getParameter("maHoaDon");
+			DonHangAPI bill = new DonHangAPI();
+			int kqCheck=0;
+			try {
+				kqCheck= DBUtils.checkHoaDon(conn, maHoaDon, maHocVien);
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			if (kqCheck==0)
+			{
+				bill.setResult("fail");
+				bill.setMessage("Hóa đơn không tồn tại hoặc đã bị hủy");
+			}
+			else if (kqCheck==-1)
+			{
+				bill.setResult("fail");
+				bill.setMessage("Bạn không có quyền xem đơn hàng này");
+			}
+			else {
+				try {
+					bill = DBUtils.getBillInfor(conn, maHoaDon);
+					bill.setResult("success");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			try {
+				ObjectMapper obj = new ObjectMapper();
+				conn.close();
+				obj.writeValue(response.getOutputStream(), bill);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -198,10 +237,16 @@ public class ThanhToanAPIController extends HttpServlet {
 					dk.setResult("fail");
 					dk.setMessage("Bạn đã thanh đoán đơn này rồi");
 				}
+				
 				else if (kqCheck==3)
 				{
 					dk.setResult("fail");
 					dk.setMessage("Quản trị viên vẫn chưa duyệt đơn hàng của bạn. Hãy chờ nhé");
+				}
+				else if (kqCheck==4)
+				{
+					dk.setResult("fail");
+					dk.setMessage("Đơn hàng của bạn bị quản trị viên từ chối");
 				}
 				else if (kqCheck==2)
 				{

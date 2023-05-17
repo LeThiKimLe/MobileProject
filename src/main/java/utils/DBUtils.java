@@ -11,7 +11,8 @@ import java.sql.Date;
 import java.util.List;
 
 import bean.*;
-import bean.API.FeedbackAPI;
+import bean.API.DonHangAPI;
+import bean.API.BillItem;
 import bean.API.KhoiLopAPI;
 import bean.API.SoDuAPI;
 
@@ -687,7 +688,7 @@ public class DBUtils {
 	
 	public static DonHang getDonHang(Connection conn, String maDonHang) throws SQLException
 	{
-		String sql = "SELECT * FROM DonHang where MaDonHang=?";
+		String sql = "SELECT * FROM DonHang where MaDonHang=? and TinhTrangXacNhan is not null";
 		PreparedStatement pstm=null;
 		try {
 			pstm = conn.prepareStatement(sql);
@@ -706,7 +707,31 @@ public class DBUtils {
 			dh.setTinhTrangXacNhan(rs.getBoolean("TinhTrangXacNhan"));
 			dh.setNgayThanhToan(rs.getDate("NgayThanhToan"));
 			dh.setHocVien(rs.getString("MaHocVien"));
+			dh.setNgayTao(rs.getDate("NgayTao"));
 		}
+        if (dh==null)
+        {
+        	sql = "SELECT * FROM DonHang where MaDonHang=?";
+    		pstm=null;
+    		try {
+    			pstm = conn.prepareStatement(sql);
+    			pstm.setString(1, maDonHang);
+    		} catch (SQLException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    	
+            rs = pstm.executeQuery();
+            while (rs.next()) {
+            	dh=new DonHang();
+    			dh.setMaDonHang(rs.getString("MaDonHang"));
+    			dh.setTongSoTien(rs.getBigDecimal("TongSoTien").intValue());
+    			dh.setNgayThanhToan(rs.getDate("NgayThanhToan"));
+    			dh.setHocVien(rs.getString("MaHocVien"));
+    			dh.setNgayTao(rs.getDate("NgayTao"));
+    		}
+        }
+        	
 		return dh;
 	}
 
@@ -747,14 +772,18 @@ public class DBUtils {
 			return -1;
 		
 		// Đơn đã được duyệt
-		if (dh.isTinhTrangXacNhan()) 
-			if (dh.getNgayThanhToan()!=null) //Đơn đã thanh toán
-				return 1;
+		if (dh.getTinhTrangXacNhan()!=null)
+		{
+			if (dh.getTinhTrangXacNhan()==true) 
+				if (dh.getNgayThanhToan()!=null) //Đơn đã thanh toán
+					return 1;
+				else
+					return 2;  //Đơn chưa thanh toán ->ok
 			else
-				return 2;  //Đơn chưa thanh toán ->ok
+				return 3;  //Đơn chưa được duyệt
+		}
 		else
-			return 3;  //Đơn chưa được duyệt
-		
+			return 4; //Đơn bị từ chối
 	}
 	
 	public static List<String> LayDSDaDK(Connection conn, String maHoaDon) throws SQLException
@@ -792,6 +821,36 @@ public class DBUtils {
 			listFeedback.add(feedbackAPI);
 		}
 		return listFeedback;
+	public static List<BillItem> getBillItem(Connection conn, String maHoaDon) throws SQLException
+	{
+		
+		String sql = "Select kh.MaKhoaHoc, TenKhoaHoc, GiaTien from KhoaHoc kh join DoTrongDonHang it on kh.MaKhoaHoc=it.MaKhoaHoc where maDonHang=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1,maHoaDon);
+		ResultSet rs = pstm.executeQuery();
+
+		List<BillItem> listKH = new ArrayList<>();
+		BillItem item= null;
+		while (rs.next()) {
+			item= new BillItem();
+			item.setMaKhoaHoc(rs.getString("MaKhoaHoc"));
+			item.setTenKhoaHoc(rs.getNString("TenKhoaHoc"));
+			item.setGiaTien(rs.getBigDecimal("GiaTien").intValue());
+			listKH.add(item);
+		}
+		return listKH;
+	}
+	
+	
+	
+	public static DonHangAPI getBillInfor(Connection conn, String maHoaDon) throws SQLException
+	{
+		DonHang dh= getDonHang(conn, maHoaDon);
+		List<BillItem> list_item= getBillItem(conn, maHoaDon);
+		DonHangAPI bill = new DonHangAPI();
+		bill.setDonHang(dh);
+		bill.setHangDat(list_item);
+		return bill;
 	}
 	
 	
