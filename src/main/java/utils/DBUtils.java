@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.util.List;
 
 import bean.*;
+import bean.API.FeedbackAPI;
 import bean.API.KhoiLopAPI;
 import bean.API.SoDuAPI;
 
@@ -772,6 +773,25 @@ public class DBUtils {
 		}
 		return listKH;
 		
+	}
+	
+	public static List<FeedbackAPI> LayDanhSachFeedBack(Connection conn, String maKhoaHoc) throws SQLException{
+		String sql = "select * \r\n"
+				+ "from Rate as rate\r\n"
+				+ "left outer join HocVien as hv on hv.MaHocVien = rate.HocVien\r\n"
+				+ "where rate.KhoaHoc=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1,maKhoaHoc);
+		ResultSet rs = pstm.executeQuery();
+		List<FeedbackAPI> listFeedback = new ArrayList<FeedbackAPI>();
+		while(rs.next()) {
+			FeedbackAPI feedbackAPI = new FeedbackAPI();
+			feedbackAPI.setTenNguoiDungFeedback(rs.getNString("TenHocVien"));
+			feedbackAPI.setStarRate(rs.getString("Rate"));
+			feedbackAPI.setComment(rs.getString("Comment"));
+			listFeedback.add(feedbackAPI);
+		}
+		return listFeedback;
 	}
 	
 	
