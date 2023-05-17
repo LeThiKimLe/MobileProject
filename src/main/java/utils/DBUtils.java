@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.util.List;
 
 import bean.*;
+import bean.API.FeedbackAPI;
 import bean.API.DonHangAPI;
 import bean.API.BillItem;
 import bean.API.KhoiLopAPI;
@@ -821,6 +822,28 @@ public class DBUtils {
 			listFeedback.add(feedbackAPI);
 		}
 		return listFeedback;
+	}
+	
+	public static List<DonHang> LayDanhSachDonHangChuaXacNhan(Connection conn) throws SQLException{
+		String sql = "select * \r\n"
+				+ "from DonHang as dh\r\n"
+				+ "where dh.TinhTrangXacNhan=0";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		ResultSet rs = pstm.executeQuery();
+		List<DonHang> listDH = new ArrayList<DonHang>();
+		while(rs.next()) {
+			DonHang dh = new DonHang();
+			dh.setMaDonHang(rs.getString("MaDonHang"));
+			dh.setTongSoTien(rs.getBigDecimal("TongSoTien").intValue());
+			dh.setNgayThanhToan(rs.getDate("NgayThanhToan"));
+			dh.setHocVien(rs.getString("MaHocVien"));
+			dh.setNgayTao(rs.getDate("NgayTao"));
+			dh.setTinhTrangXacNhan(rs.getBoolean("TinhTrangXacNhan"));
+			listDH.add(dh);
+		}
+		return listDH;
+	}
+	
 	public static List<BillItem> getBillItem(Connection conn, String maHoaDon) throws SQLException
 	{
 		
