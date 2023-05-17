@@ -237,10 +237,16 @@ public class ThanhToanAPIController extends HttpServlet {
 					dk.setResult("fail");
 					dk.setMessage("Bạn đã thanh đoán đơn này rồi");
 				}
+				
 				else if (kqCheck==3)
 				{
 					dk.setResult("fail");
 					dk.setMessage("Quản trị viên vẫn chưa duyệt đơn hàng của bạn. Hãy chờ nhé");
+				}
+				else if (kqCheck==4)
+				{
+					dk.setResult("fail");
+					dk.setMessage("Đơn hàng của bạn bị quản trị viên từ chối");
 				}
 				else if (kqCheck==2)
 				{

@@ -22,7 +22,9 @@ public class DonHang implements java.io.Serializable {
 	private String hocVien;
 	private int tongSoTien;
 	private Date ngayThanhToan;
-	private boolean tinhTrangXacNhan;
+	private Boolean tinhTrangXacNhan;
+	
+
 	private Date ngayTao;
 
 	public DonHang() {
@@ -224,12 +226,13 @@ public class DonHang implements java.io.Serializable {
         pstm.executeUpdate();
 	}
 	
-	public boolean isTinhTrangXacNhan() {
+	public Boolean getTinhTrangXacNhan() {
 		return tinhTrangXacNhan;
 	}
 
-	public void setTinhTrangXacNhan(boolean tinhTrangXacNhan) {
+	public void setTinhTrangXacNhan(Boolean tinhTrangXacNhan) {
 		this.tinhTrangXacNhan = tinhTrangXacNhan;
 	}
+	
 	
 }

@@ -688,7 +688,7 @@ public class DBUtils {
 	
 	public static DonHang getDonHang(Connection conn, String maDonHang) throws SQLException
 	{
-		String sql = "SELECT * FROM DonHang where MaDonHang=?";
+		String sql = "SELECT * FROM DonHang where MaDonHang=? and TinhTrangXacNhan is not null";
 		PreparedStatement pstm=null;
 		try {
 			pstm = conn.prepareStatement(sql);
@@ -709,6 +709,29 @@ public class DBUtils {
 			dh.setHocVien(rs.getString("MaHocVien"));
 			dh.setNgayTao(rs.getDate("NgayTao"));
 		}
+        if (dh==null)
+        {
+        	sql = "SELECT * FROM DonHang where MaDonHang=?";
+    		pstm=null;
+    		try {
+    			pstm = conn.prepareStatement(sql);
+    			pstm.setString(1, maDonHang);
+    		} catch (SQLException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    	
+            rs = pstm.executeQuery();
+            while (rs.next()) {
+            	dh=new DonHang();
+    			dh.setMaDonHang(rs.getString("MaDonHang"));
+    			dh.setTongSoTien(rs.getBigDecimal("TongSoTien").intValue());
+    			dh.setNgayThanhToan(rs.getDate("NgayThanhToan"));
+    			dh.setHocVien(rs.getString("MaHocVien"));
+    			dh.setNgayTao(rs.getDate("NgayTao"));
+    		}
+        }
+        	
 		return dh;
 	}
 
@@ -749,14 +772,18 @@ public class DBUtils {
 			return -1;
 		
 		// Đơn đã được duyệt
-		if (dh.isTinhTrangXacNhan()) 
-			if (dh.getNgayThanhToan()!=null) //Đơn đã thanh toán
-				return 1;
+		if (dh.getTinhTrangXacNhan()!=null)
+		{
+			if (dh.getTinhTrangXacNhan()==true) 
+				if (dh.getNgayThanhToan()!=null) //Đơn đã thanh toán
+					return 1;
+				else
+					return 2;  //Đơn chưa thanh toán ->ok
 			else
-				return 2;  //Đơn chưa thanh toán ->ok
+				return 3;  //Đơn chưa được duyệt
+		}
 		else
-			return 3;  //Đơn chưa được duyệt
-		
+			return 4; //Đơn bị từ chối
 	}
 	
 	public static List<String> LayDSDaDK(Connection conn, String maHoaDon) throws SQLException
