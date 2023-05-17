@@ -83,7 +83,6 @@ public class DonHang implements java.io.Serializable {
 	public String getHocVien() {
 		return this.hocVien;
 	}
-
 	public void setHocVien(String hocVien) {
 		this.hocVien = hocVien;
 	}

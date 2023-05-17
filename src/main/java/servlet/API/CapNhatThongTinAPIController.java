@@ -52,7 +52,7 @@ public class CapNhatThongTinAPIController extends HttpServlet {
 		}
 		if (checkUser == null) {
 			hvApi.setResult("fail");
-			hvApi.setMessage("Tài khoản tồn tại");
+			hvApi.setMessage("Tài khoản không tồn tại");
 		} else {
 			String name= new String(request.getParameter("name").getBytes("UTF-8")) ;
 			String sodt= (String)request.getParameter("sdt");

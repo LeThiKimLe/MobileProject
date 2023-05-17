@@ -39,7 +39,6 @@ public class ThongKeSoLuongHocVienDangKyKhoaHoc extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		
 		ThongKeSoLuongHocVienDangKyAPI thongKe = new ThongKeSoLuongHocVienDangKyAPI();
 		try {
 			thongKe.setTongSoHocVien(DBUntilQLKH.SoLuongHocVien(conn));

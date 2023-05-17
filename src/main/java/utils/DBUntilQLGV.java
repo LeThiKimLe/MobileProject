@@ -257,7 +257,8 @@ public class DBUntilQLGV {
 	            String cccd = rs.getString("CCCD");
 	            String diachi = rs.getString("DiaChi");
 	            Date ngaykyket = rs.getDate("ngaykyket");
-	            GiaoVien gVien = new GiaoVien(magv ,tengv,sdt,cccd, diachi, ngaykyket);   
+	            String email = rs.getString("Email");
+	            GiaoVien gVien = new GiaoVien(magv ,email, tengv, sdt,cccd, diachi, ngaykyket);   
 	            return gVien;
 	        }
 	        return null;

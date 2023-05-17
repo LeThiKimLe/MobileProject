@@ -81,6 +81,18 @@ public class GiaoVien implements java.io.Serializable {
 		this.ngayKyKet = ngayKyKet;
 	}
 	
+	public GiaoVien(String maGiaoVien, String email, String tenGiaoVien, String sdt, String cccd, String diaChi,
+			Date ngayKyKet)
+	{
+		this.maGiaoVien = maGiaoVien;
+		this.tenGiaoVien = tenGiaoVien;
+		this.sdt = sdt;
+		this.cccd = cccd;
+		this.diaChi = diaChi;
+		this.ngayKyKet = ngayKyKet;
+		this.email= email;
+	}
+	
 	public GiaoVien(String tenGiaoVien, String sdt, String email, String cccd, String diaChi,
 			Date ngayKyKet, String chuyen, boolean taomoi) throws SQLException {
 		String maGiaoVien=autoID();
@@ -104,6 +116,14 @@ public class GiaoVien implements java.io.Serializable {
 		this.diaChi = diaChi;
 		this.ngayKyKet = ngayKyKet;
 		this.chuyenmon= chuyen;		
+	}
+	
+	public GiaoVien(String maGiaoVien,String tenGiaoVien, String sdt, String email)
+	{
+		this.maGiaoVien = maGiaoVien;
+		this.tenGiaoVien = tenGiaoVien;
+		this.sdt = sdt;
+		this.email= email;		
 	}
 
 	public String getMaGiaoVien() {
