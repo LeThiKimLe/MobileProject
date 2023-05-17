@@ -254,8 +254,10 @@ public class DBUntilQLGV {
 	        	String magv = rs.getString("MaGiaoVien");
 	            String tengv = rs.getString("TenGiaoVien");  
 	            String sdt = rs.getString("SDT");
-	            String email = rs.getString("Email");
-	            GiaoVien gVien = new GiaoVien(magv ,tengv,sdt,email);   
+	            String cccd = rs.getString("CCCD");
+	            String diachi = rs.getString("DiaChi");
+	            Date ngaykyket = rs.getDate("ngaykyket");
+	            GiaoVien gVien = new GiaoVien(magv ,tengv,sdt,cccd, diachi, ngaykyket);   
 	            return gVien;
 	        }
 	        return null;
