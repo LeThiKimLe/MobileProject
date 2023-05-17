@@ -11,6 +11,8 @@ import java.sql.Date;
 import java.util.List;
 
 import bean.*;
+import bean.API.DonHangAPI;
+import bean.API.BillItem;
 import bean.API.KhoiLopAPI;
 import bean.API.SoDuAPI;
 
@@ -611,6 +613,7 @@ public class DBUtils {
 			dh.setTinhTrangXacNhan(rs.getBoolean("TinhTrangXacNhan"));
 			dh.setNgayThanhToan(rs.getDate("NgayThanhToan"));
 			dh.setHocVien(rs.getString("MaHocVien"));
+			dh.setNgayTao(rs.getDate("NgayTao"));
 		}
 		return dh;
 	}
@@ -678,6 +681,38 @@ public class DBUtils {
 		}
 		return listKH;
 		
+	}
+	
+	public static List<BillItem> getBillItem(Connection conn, String maHoaDon) throws SQLException
+	{
+		
+		String sql = "Select kh.MaKhoaHoc, TenKhoaHoc, GiaTien from KhoaHoc kh join DoTrongDonHang it on kh.MaKhoaHoc=it.MaKhoaHoc where maDonHang=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1,maHoaDon);
+		ResultSet rs = pstm.executeQuery();
+
+		List<BillItem> listKH = new ArrayList<>();
+		BillItem item= null;
+		while (rs.next()) {
+			item= new BillItem();
+			item.setMaKhoaHoc(rs.getString("MaKhoaHoc"));
+			item.setTenKhoaHoc(rs.getNString("TenKhoaHoc"));
+			item.setGiaTien(rs.getBigDecimal("GiaTien").intValue());
+			listKH.add(item);
+		}
+		return listKH;
+	}
+	
+	
+	
+	public static DonHangAPI getBillInfor(Connection conn, String maHoaDon) throws SQLException
+	{
+		DonHang dh= getDonHang(conn, maHoaDon);
+		List<BillItem> list_item= getBillItem(conn, maHoaDon);
+		DonHangAPI bill = new DonHangAPI();
+		bill.setDonHang(dh);
+		bill.setHangDat(list_item);
+		return bill;
 	}
 	
 	
