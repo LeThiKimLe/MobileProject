@@ -269,6 +269,7 @@ public class DBUntilQLKH {
 			khhv1.setPhanMon(rs.getNString("TenPhanMon"));
 			khhv1.setGiaoVien(rs.getNString("TenGiaoVien"));
 			khhv1.setHinhAnhMoTa(rs.getString("HinhAnhMoTa"));
+			khhv1.setGiaTien(rs.getInt("GiaTien"));
 			khhv.add(khhv1);
 		}
 		return khhv;

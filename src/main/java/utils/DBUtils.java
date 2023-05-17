@@ -459,9 +459,9 @@ public class DBUtils {
 
 
 	public static List<KhoaHoc> searchByName(Connection conn, String name) throws SQLException {
-		String sql = "select a.GiaoVien, a.GiaTien, a.HinhAnhMoTa, a.MaKhoaHoc, a.MoTa, a.NgayCapNhat, a.PhanMon, a.SoBaiHoc, a.TenKhoaHoc, gv.TenGiaoVien \r\n"
+		String sql = "select a.GiaoVien, a.GiaTien, a.HinhAnhMoTa, a.MaKhoaHoc, a.MoTa, a.NgayCapNhat,a.PhanMon,pm.TenPhanMon, a.SoBaiHoc, a.TenKhoaHoc, gv.TenGiaoVien \r\n"
 				+ "from KhoaHoc as a\r\n" + "inner join GiaoVien as gv on a.GiaoVien = gv.MaGiaoVien\r\n"
-				+ "where a.TenKhoaHoc like ?";
+				+ "join PhanMon as pm on pm.MaPhanMon=a.PhanMon where a.TenKhoaHoc like ?";
 
 		PreparedStatement pstm = conn.prepareStatement(sql);
 		pstm.setString(1, "%" + name + "%");
@@ -472,6 +472,7 @@ public class DBUtils {
 		int giaTien = 0;
 		String img = null;
 		String mota = null;
+		String pm = null;
 		String ma_khoahocString = null;
 
 		List<KhoaHoc> tenKH = new ArrayList<KhoaHoc>();
@@ -482,6 +483,7 @@ public class DBUtils {
 			giaTien = rs.getBigDecimal("GiaTien").intValue();
 			img = rs.getString("HinhAnhMoTa");
 			mota = rs.getString("MoTa");
+			pm = rs.getString("TenPhanMon");
 
 			KhoaHoc kh = new KhoaHoc();
 			kh.setMaKhoaHoc(ma_khoahocString);
@@ -490,6 +492,7 @@ public class DBUtils {
 			kh.setGiaTien(giaTien);
 			kh.setHinhAnhMoTa(img);
 			kh.setMoTa(mota);
+			kh.setPhanMon(pm);
 
 			tenKH.add(kh);
 			System.out.print("Thanh cong1");

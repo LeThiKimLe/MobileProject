@@ -6,6 +6,7 @@ public class KhoaHocHocVienAPI {
 	private String phanMon;
 	private String giaoVien;
 	private String hinhAnhMoTa;
+	private Integer giaTien;
 	/**
 	 * @return the idCourse
 	 */
@@ -65,6 +66,12 @@ public class KhoaHocHocVienAPI {
 	
 	public void setMaKhoaHoc(String maKhoaHoc) {
 		this.maKhoaHoc = maKhoaHoc;
+	}
+	public Integer getGiaTien() {
+		return giaTien;
+	}
+	public void setGiaTien(Integer giaTien) {
+		this.giaTien = giaTien;
 	}
 	
 	
