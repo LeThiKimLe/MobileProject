@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.util.List;
 
 import bean.*;
+import bean.API.FeedbackAPI;
 import bean.API.DonHangAPI;
 import bean.API.BillItem;
 import bean.API.KhoiLopAPI;
@@ -555,9 +556,9 @@ public class DBUtils {
 
 
 	public static List<KhoaHoc> searchByName(Connection conn, String name) throws SQLException {
-		String sql = "select a.GiaoVien, a.GiaTien, a.HinhAnhMoTa, a.MaKhoaHoc, a.MoTa, a.NgayCapNhat, a.PhanMon, a.SoBaiHoc, a.TenKhoaHoc, gv.TenGiaoVien \r\n"
+		String sql = "select a.GiaoVien, a.GiaTien, a.HinhAnhMoTa, a.MaKhoaHoc, a.MoTa, a.NgayCapNhat,a.PhanMon,pm.TenPhanMon, a.SoBaiHoc, a.TenKhoaHoc, gv.TenGiaoVien \r\n"
 				+ "from KhoaHoc as a\r\n" + "inner join GiaoVien as gv on a.GiaoVien = gv.MaGiaoVien\r\n"
-				+ "where a.TenKhoaHoc like ?";
+				+ "join PhanMon as pm on pm.MaPhanMon=a.PhanMon where a.TenKhoaHoc like ?";
 
 		PreparedStatement pstm = conn.prepareStatement(sql);
 		pstm.setString(1, "%" + name + "%");
@@ -568,6 +569,7 @@ public class DBUtils {
 		int giaTien = 0;
 		String img = null;
 		String mota = null;
+		String pm = null;
 		String ma_khoahocString = null;
 
 		List<KhoaHoc> tenKH = new ArrayList<KhoaHoc>();
@@ -578,6 +580,7 @@ public class DBUtils {
 			giaTien = rs.getBigDecimal("GiaTien").intValue();
 			img = rs.getString("HinhAnhMoTa");
 			mota = rs.getString("MoTa");
+			pm = rs.getString("TenPhanMon");
 
 			KhoaHoc kh = new KhoaHoc();
 			kh.setMaKhoaHoc(ma_khoahocString);
@@ -586,6 +589,7 @@ public class DBUtils {
 			kh.setGiaTien(giaTien);
 			kh.setHinhAnhMoTa(img);
 			kh.setMoTa(mota);
+			kh.setPhanMon(pm);
 
 			tenKH.add(kh);
 			System.out.print("Thanh cong1");
@@ -804,6 +808,45 @@ public class DBUtils {
 		
 	}
 	
+	public static List<FeedbackAPI> LayDanhSachFeedBack(Connection conn, String maKhoaHoc) throws SQLException{
+		String sql = "select * \r\n"
+				+ "from Rate as rate\r\n"
+				+ "left outer join HocVien as hv on hv.MaHocVien = rate.HocVien\r\n"
+				+ "where rate.KhoaHoc=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1,maKhoaHoc);
+		ResultSet rs = pstm.executeQuery();
+		List<FeedbackAPI> listFeedback = new ArrayList<FeedbackAPI>();
+		while(rs.next()) {
+			FeedbackAPI feedbackAPI = new FeedbackAPI();
+			feedbackAPI.setTenNguoiDungFeedback(rs.getNString("TenHocVien"));
+			feedbackAPI.setStarRate(rs.getString("Rate"));
+			feedbackAPI.setComment(rs.getString("Comment"));
+			listFeedback.add(feedbackAPI);
+		}
+		return listFeedback;
+	}
+	
+	public static List<DonHang> LayDanhSachDonHangChuaXacNhan(Connection conn) throws SQLException{
+		String sql = "select * \r\n"
+				+ "from DonHang as dh\r\n"
+				+ "where dh.TinhTrangXacNhan=0";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		ResultSet rs = pstm.executeQuery();
+		List<DonHang> listDH = new ArrayList<DonHang>();
+		while(rs.next()) {
+			DonHang dh = new DonHang();
+			dh.setMaDonHang(rs.getString("MaDonHang"));
+			dh.setTongSoTien(rs.getBigDecimal("TongSoTien").intValue());
+			dh.setNgayThanhToan(rs.getDate("NgayThanhToan"));
+			dh.setHocVien(rs.getString("MaHocVien"));
+			dh.setNgayTao(rs.getDate("NgayTao"));
+			dh.setTinhTrangXacNhan(rs.getBoolean("TinhTrangXacNhan"));
+			listDH.add(dh);
+		}
+		return listDH;
+	}
+	
 	public static List<BillItem> getBillItem(Connection conn, String maHoaDon) throws SQLException
 	{
 		
@@ -836,5 +879,33 @@ public class DBUtils {
 		return bill;
 	}
 	
+	public static void XacNhanDonHang(Connection conn, String maDonHang) throws SQLException{
+		String sql = "update DonHang\r\n"
+				+ "set TinhTrangXacNhan=1\r\n"
+				+ "where MaDonHang=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1,maDonHang);
+		pstm.executeUpdate();
+	}
+	
+	public static void HoanXacNhanDonHang(Connection conn, String maDonHang) throws SQLException{
+		String sql = "update DonHang\r\n"
+				+ "set TinhTrangXacNhan=NULL\r\n"
+				+ "where MaDonHang=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1,maDonHang);
+		pstm.executeUpdate();
+	}
+	
+	public static Boolean CheckDonHang(Connection conn, String maDonHang) throws SQLException{
+		String sql = "select * from DonHang where MaDonHang=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1,maDonHang);
+		ResultSet rs = pstm.executeQuery();
+		while(rs.next()) {
+			return true;
+		}
+		return false;
+	}
 	
 }
