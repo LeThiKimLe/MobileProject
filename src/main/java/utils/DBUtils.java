@@ -876,5 +876,33 @@ public class DBUtils {
 		return bill;
 	}
 	
+	public static void XacNhanDonHang(Connection conn, String maDonHang) throws SQLException{
+		String sql = "update DonHang\r\n"
+				+ "set TinhTrangXacNhan=1\r\n"
+				+ "where MaDonHang=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1,maDonHang);
+		pstm.executeUpdate();
+	}
+	
+	public static void HoanXacNhanDonHang(Connection conn, String maDonHang) throws SQLException{
+		String sql = "update DonHang\r\n"
+				+ "set TinhTrangXacNhan=NULL\r\n"
+				+ "where MaDonHang=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1,maDonHang);
+		pstm.executeUpdate();
+	}
+	
+	public static Boolean CheckDonHang(Connection conn, String maDonHang) throws SQLException{
+		String sql = "select * from DonHang where MaDonHang=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1,maDonHang);
+		ResultSet rs = pstm.executeQuery();
+		while(rs.next()) {
+			return true;
+		}
+		return false;
+	}
 	
 }
