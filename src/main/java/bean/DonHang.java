@@ -22,6 +22,10 @@ public class DonHang implements java.io.Serializable {
 	private String hocVien;
 	private int tongSoTien;
 	private Date ngayThanhToan;
+	private Boolean tinhTrangXacNhan;
+	
+
+	private Date ngayTao;
 
 	public DonHang() {
 		tongSoTien=0;
@@ -100,6 +104,14 @@ public class DonHang implements java.io.Serializable {
 		this.ngayThanhToan = ngayThanhToan;
 	}
 	
+	public Date getNgayTao() {
+		return this.ngayTao;
+	}
+
+	public void setNgayTao(Date ngayTao) {
+		this.ngayTao = ngayTao;
+	}
+	
 	public void ThemItem( Connection conn,String maKhoaHoc, int giatien) throws SQLException
 	{
 		DoTrongDonHang newitemDonHang= new DoTrongDonHang(this.maDonHang, maKhoaHoc);
@@ -119,6 +131,23 @@ public class DonHang implements java.io.Serializable {
         
         this.tongSoTien=this.tongSoTien+giatien;
 	}
+	
+	public void addItem(Connection conn,String maKhoaHoc) throws SQLException
+	{
+		DoTrongDonHang newitemDonHang= new DoTrongDonHang(this.maDonHang, maKhoaHoc);	
+        String sql = "Insert into DoTrongDonHang values (?,?,?)";
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setString(1, newitemDonHang.getId());
+        pstm.setString(2, newitemDonHang.getDonHang());
+        pstm.setString(3, newitemDonHang.getMaKhoaHoc());
+        pstm.executeUpdate();
+//        
+//        String sql2 = "Insert into DangKyKhoaHoc values (?,?)";
+//        PreparedStatement pstm2 = conn.prepareStatement(sql2);
+//        pstm2.setString(1, this.hocVien);
+//        pstm2.setString(2, maKhoaHoc);
+//        pstm2.executeUpdate();
+	}
 
 	
 	public void TaoHoaDon(Connection conn) throws SQLException
@@ -136,9 +165,32 @@ public class DonHang implements java.io.Serializable {
 	{
 		this.maDonHang = this.autoID();
 		this.hocVien = hocVien;
-		this.tongSoTien = 0;
 		this.ngayThanhToan = ngayThanhToan;
 		this.TaoHoaDon(conn);
+	}
+	
+	public DonHang(Connection conn, Date ngayTao, String hocVien) throws SQLException
+	{
+		this.maDonHang = this.autoID();
+		this.hocVien = hocVien;
+		this.tongSoTien = 0;
+		this.ngayThanhToan=null;
+		this.tinhTrangXacNhan=false;
+		this.ngayTao= ngayTao;
+		this.TaoMoiHoaDon(conn);
+	}
+	
+	public void TaoMoiHoaDon(Connection conn) throws SQLException
+	{
+        String sql = "Insert into DonHang values (?,?,?,?,?,?)";
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setString(1, this.maDonHang);
+        pstm.setBigDecimal(2, BigDecimal.valueOf(this.tongSoTien));
+        pstm.setDate(3, this.ngayThanhToan);
+        pstm.setString(4, this.hocVien);
+        pstm.setDate(5, this.ngayTao);
+        pstm.setBoolean(6, this.tinhTrangXacNhan);
+        pstm.executeUpdate();
 	}
 	
 	
@@ -150,5 +202,37 @@ public class DonHang implements java.io.Serializable {
         pstm.setString(2, this.maDonHang);
         pstm.executeUpdate();
 	}
+	
+	public void HoanTatTongHoaDon(Connection conn) throws SQLException
+	{
+		String sql = "select sum(kh.GiaTien) as tongTien \r\n"
+				+ "from DoTrongDonHang as item\r\n"
+				+ "join DonHang as dh on dh.MaDonHang=item.MaDonHang \r\n"
+				+ "join KhoaHoc as kh on item.MaKhoaHoc=kh.MaKhoaHoc\r\n"
+				+ "where dh.MaDonHang=?";
+		
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setString(1, this.maDonHang);
+        ResultSet rs = pstm.executeQuery();
+		int tongTien=0;
+		while (rs.next()) {
+			tongTien = rs.getInt("tongTien");
+		}
+		this.tongSoTien=tongTien;
+		sql = "Update DonHang set TongSoTien=? where MaDonHang=?";
+        pstm = conn.prepareStatement(sql);
+        pstm.setBigDecimal(1, BigDecimal.valueOf(this.tongSoTien));
+        pstm.setString(2, this.maDonHang);
+        pstm.executeUpdate();
+	}
+	
+	public Boolean getTinhTrangXacNhan() {
+		return tinhTrangXacNhan;
+	}
+
+	public void setTinhTrangXacNhan(Boolean tinhTrangXacNhan) {
+		this.tinhTrangXacNhan = tinhTrangXacNhan;
+	}
+	
 	
 }

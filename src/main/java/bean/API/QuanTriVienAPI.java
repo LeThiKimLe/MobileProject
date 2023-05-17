@@ -1,15 +1,11 @@
 package bean.API;
 
-import java.io.Serializable;
+import bean.QuanTriVien;
 
-public class DangKyKHMessageAPI implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3330924645330334742L;
+public class QuanTriVienAPI {
 	private String result;
 	private String message;
-	private String maHoaDon;
+	private QuanTriVien qtv;
 	/**
 	 * @return the result
 	 */
@@ -34,10 +30,17 @@ public class DangKyKHMessageAPI implements Serializable {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public String getMaHoaDon() {
-		return maHoaDon;
+	/**
+	 * @return the qtv
+	 */
+	public QuanTriVien getQtv() {
+		return qtv;
 	}
-	public void setMaHoaDon(String maHoaDon) {
-		this.maHoaDon = maHoaDon;
+	/**
+	 * @param qtv the qtv to set
+	 */
+	public void setQtv(QuanTriVien qtv) {
+		this.qtv = qtv;
 	}
+	
 }

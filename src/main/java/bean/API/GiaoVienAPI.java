@@ -1,15 +1,11 @@
 package bean.API;
 
-import java.io.Serializable;
+import bean.GiaoVien;
 
-public class DangKyKHMessageAPI implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3330924645330334742L;
+public class GiaoVienAPI {
 	private String result;
 	private String message;
-	private String maHoaDon;
+	private GiaoVien giaoVien;
 	/**
 	 * @return the result
 	 */
@@ -34,10 +30,16 @@ public class DangKyKHMessageAPI implements Serializable {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public String getMaHoaDon() {
-		return maHoaDon;
+	/**
+	 * @return the giaoVien
+	 */
+	public GiaoVien getGiaoVien() {
+		return giaoVien;
 	}
-	public void setMaHoaDon(String maHoaDon) {
-		this.maHoaDon = maHoaDon;
+	/**
+	 * @param giaoVien the giaoVien to set
+	 */
+	public void setGiaoVien(GiaoVien giaoVien) {
+		this.giaoVien = giaoVien;
 	}
 }

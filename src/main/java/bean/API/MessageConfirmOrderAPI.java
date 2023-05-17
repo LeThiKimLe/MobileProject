@@ -1,15 +1,8 @@
 package bean.API;
 
-import java.io.Serializable;
-
-public class DangKyKHMessageAPI implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3330924645330334742L;
-	private String result;
-	private String message;
-	private String maHoaDon;
+public class MessageConfirmOrderAPI {
+	String result;
+	String message;
 	/**
 	 * @return the result
 	 */
@@ -34,10 +27,6 @@ public class DangKyKHMessageAPI implements Serializable {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public String getMaHoaDon() {
-		return maHoaDon;
-	}
-	public void setMaHoaDon(String maHoaDon) {
-		this.maHoaDon = maHoaDon;
-	}
+	
+	
 }
