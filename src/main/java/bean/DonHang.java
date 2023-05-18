@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import dao.ConnectDataBase;
 
 /**
@@ -21,10 +23,10 @@ public class DonHang implements java.io.Serializable {
 	private String maDonHang;
 	private String hocVien;
 	private int tongSoTien;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "GMT+7")
 	private Date ngayThanhToan;
 	private Boolean tinhTrangXacNhan;
-	
-
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone = "GMT+7")
 	private Date ngayTao;
 
 	public DonHang() {
