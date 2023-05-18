@@ -229,6 +229,7 @@ public class DBUtils {
 		pstm.setString(1, maGiaoVien);
 		
 		ResultSet rs = pstm.executeQuery();
+		
 
 		while (rs.next()) {
 			String magv = rs.getString("MaGiaoVien");
@@ -237,7 +238,8 @@ public class DBUtils {
             String cccd = rs.getString("CCCD");
             String diachi = rs.getString("DiaChi");
             Date ngaykyket = rs.getDate("ngaykyket");
-            GiaoVien gVien = new GiaoVien(magv ,tengv,sdt,cccd, diachi, ngaykyket);  
+            String email= rs.getString("Email");
+            GiaoVien gVien = new GiaoVien(magv ,tengv,sdt,cccd, diachi, ngaykyket, email, 1);  
             gVien.setListPhanMon(DBUntilQLGV.findGiaoVienMajor(conn, maGiaoVien));
             return gVien;
 		}
