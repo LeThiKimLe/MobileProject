@@ -296,6 +296,25 @@ public class DBUntilQLKH {
 		}
 		return bh;
 	}
+	public static List<BaiHoc> DanhSachBai(Connection conn, String maKhoaHoc)
+			throws SQLException {
+		String sql = "select bh.TenBaiHoc,bh.MaBaiHoc "
+				+ "from BaiHoc as bh "
+				+ "where bh.MaKhoaHoc=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, maKhoaHoc);
+	
+		ResultSet rs = pstm.executeQuery();
+		List<BaiHoc> bh = new ArrayList<BaiHoc>();
+		while(rs.next()) {
+			BaiHoc bh1 = new BaiHoc();
+			bh1.setMaBaiHoc(rs.getString("MaBaiHoc"));
+			bh1.setTenBaiHoc(rs.getNString("TenBaiHoc"));
+			
+			bh.add(bh1);
+		}
+		return bh;
+	}
 	
 	public static VideoBaiHocAPI VideoBaiGiangHocVien(Connection conn, String maBaiHoc)
 			throws SQLException {

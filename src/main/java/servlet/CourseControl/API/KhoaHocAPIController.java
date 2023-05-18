@@ -8,6 +8,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import bean.GiaoVien;
+import bean.BaiHoc;
 import bean.KhoaHoc;
 import bean.KhoiLop;
 import bean.PhanMon;
@@ -21,14 +22,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import utils.DBUntilQLGV;
 import utils.DBUtils;
+import utils.DBUntilQLKH;
 
-@WebServlet(urlPatterns = { "/api/general/listCourse", "/api/general/courseDetail", "/api/general/listSubject", "/api/general/subject", "/api/general/khoiLop", "/api/general/getTeacher", "/api/general/search"})
+@WebServlet(urlPatterns = { "/api/general/listCourse", "/api/general/courseDetail", "/api/general/listSubject", "/api/general/subject", "/api/general/khoiLop", "/api/general/getTeacher", "/api/general/search","/api/general/lession"})
 public class KhoaHocAPIController extends HttpServlet {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4003951102600400560L;
+	private String makh;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -71,6 +74,7 @@ public class KhoaHocAPIController extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		
 		else if (path.contains("/api/general/listSubject")){
 			List<KhoiLopAPI> listKhoiLopAPI = null;
 			try {
@@ -96,6 +100,7 @@ public class KhoaHocAPIController extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		
 	}
 
 	@Override
@@ -165,6 +170,21 @@ public class KhoaHocAPIController extends HttpServlet {
 				ObjectMapper obj = new ObjectMapper();
 				conn.close();
 				obj.writeValue(resp.getOutputStream(), khoaHoc);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (path.contains("/api/general/lession"))
+			
+		{
+			String makh = (String) req.getParameter("maKhoaHoc");
+			List<BaiHoc> listbh =null;
+			try {
+				listbh = DBUntilQLKH.DanhSachBai(conn,makh);
+				ObjectMapper obj = new ObjectMapper();
+				conn.close();
+				obj.writeValue(resp.getOutputStream(), listbh);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
