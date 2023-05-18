@@ -805,7 +805,6 @@ public class DBUtils {
 			
 		}
 		return listKH;
-		
 	}
 	
 	public static List<FeedbackAPI> LayDanhSachFeedBack(Connection conn, String maKhoaHoc) throws SQLException{
@@ -867,8 +866,6 @@ public class DBUtils {
 		return listKH;
 	}
 	
-	
-	
 	public static DonHangAPI getBillInfor(Connection conn, String maHoaDon) throws SQLException
 	{
 		DonHang dh= getDonHang(conn, maHoaDon);
@@ -906,6 +903,28 @@ public class DBUtils {
 			return true;
 		}
 		return false;
+	}
+	
+	public static List<GiaoDich> getTransaction(Connection conn, String maVi) throws SQLException
+	{
+		
+		String sql = "Select * from GiaoDich where MaVi=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1,maVi);
+		ResultSet rs = pstm.executeQuery();
+
+		List<GiaoDich> listGD = new ArrayList<>();
+		GiaoDich item= null;
+		while (rs.next()) {
+			item= new GiaoDich();
+			item.setMaGiaoDich(rs.getString("MaGiaoDich"));
+			item.setNgayGiaoDich(rs.getDate("NgayGiaoDich"));
+			item.setNoiDungGiaoDich(rs.getNString("NoiDungGiaoDich"));
+			item.setSoDuCapNhat(rs.getBigDecimal("SoDuCapNhat"));
+			item.setSoTienGiaoDich(rs.getBigDecimal("SoTienGiaoDich"));
+			listGD.add(item);
+		}
+		return listGD;
 	}
 	
 }
