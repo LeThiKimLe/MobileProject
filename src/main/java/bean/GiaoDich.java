@@ -36,6 +36,16 @@ public class GiaoDich implements java.io.Serializable {
 		this.ngayGiaoDich = ngayGiaoDich;
 		this.soDuCapNhat = soDuCapNhat;
 	}
+	
+	public GiaoDich(String maGiaoDich, BigDecimal soTienGiaoDich, String noiDungGiaoDich,
+			Date ngayGiaoDich, BigDecimal soDuCapNhat) {
+		this.maGiaoDich = maGiaoDich;
+		this.soTienGiaoDich = soTienGiaoDich;
+		this.noiDungGiaoDich = noiDungGiaoDich;
+		this.ngayGiaoDich = ngayGiaoDich;
+		this.soDuCapNhat = soDuCapNhat;
+	}
+	
 
 	public String getMaGiaoDich() {
 		return this.maGiaoDich;

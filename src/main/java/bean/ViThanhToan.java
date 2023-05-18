@@ -69,7 +69,6 @@ public class ViThanhToan implements java.io.Serializable {
 	}
 	
 	
-
 	public String getMaVi() {
 		return this.maVi;
 	}
@@ -121,6 +120,7 @@ public class ViThanhToan implements java.io.Serializable {
 	    	this.hocVien=maHocVien;
 	    	this.maVi=maVi;
 	    	this.soDu=soDu.intValue();
+	    	this.ngayCapNhat= rs.getDate("NgayCapNhat");
         }
     }
 	
