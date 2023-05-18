@@ -215,7 +215,7 @@ public class DBUtils {
 		ResultSet rs = pstm.executeQuery();
 
 		while (rs.next()) {
-			QuanTriVien qtv = new QuanTriVien(rs.getString("MaQTV"), rs.getNString("HoTen"), rs.getString("SDT"), rs.getString("Email"), rs.getString("DiaChi"), rs.getString("CCCD"), DBUtils.LayDanhSachPhanMonTheoKhoiLop(conn));
+			QuanTriVien qtv = new QuanTriVien(rs.getString("MaQTV"), rs.getNString("HoTen"), rs.getString("SDT"), rs.getString("Email"), rs.getString("DiaChi"), rs.getString("CCCD"));
 			return qtv;
 		}
 		return null;
@@ -237,7 +237,8 @@ public class DBUtils {
             String cccd = rs.getString("CCCD");
             String diachi = rs.getString("DiaChi");
             Date ngaykyket = rs.getDate("ngaykyket");
-            GiaoVien gVien = new GiaoVien(magv ,tengv,sdt,cccd, diachi, ngaykyket);   
+            GiaoVien gVien = new GiaoVien(magv ,tengv,sdt,cccd, diachi, ngaykyket);  
+            gVien.setListPhanMon(DBUntilQLGV.findGiaoVienMajor(conn, maGiaoVien));
             return gVien;
 		}
 		return null;

@@ -263,6 +263,28 @@ public class DBUntilQLGV {
 	        }
 	        return null;
 	    }
+	 
+	 public static List<PhanMon> findGiaoVienMajor(Connection conn, String maGiaoVien) throws SQLException {
+	        String sql = "Select b.MaPhanMon, b.TenPhanMon from ChuyenMon a join PhanMon b on a.MaPhanMon=b.MaPhanMon join GiaoVien c on a.MaGiaoVien=c.MaGiaoVien where a.MaGiaoVien=?";
+	        PreparedStatement pstm = conn.prepareStatement(sql);
+	        pstm.setString(1, maGiaoVien);
+	        //"Select a.id, a.name, a.address from Student a where a.id=12";
+	        ResultSet rs = pstm.executeQuery();
+	        List<PhanMon> phanMon = new ArrayList<>();
+	        PhanMon temp= null;
+	        
+	        while (rs.next()) {
+	        	temp= new PhanMon();
+	        	temp.setMaPhanMon(rs.getString("MaPhanMon"));
+	        	temp.setTenPhanMon(rs.getNString("TenPhanMon"));
+	        	phanMon.add(temp);
+	        }
+	        if (temp==null)
+	        	return null;
+	       
+	        return phanMon;
+	       
+	    }
 	
 	
 	

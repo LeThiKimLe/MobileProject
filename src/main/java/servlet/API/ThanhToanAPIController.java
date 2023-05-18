@@ -279,6 +279,7 @@ public class ThanhToanAPIController extends HttpServlet {
 									e.printStackTrace();
 								}
 							}
+							dk.setMaHoaDon(maHoaDon);
 							dk.setResult("success");
 							dk.setMessage("Bạn đã đăng ký khóa học thành công");
 						}

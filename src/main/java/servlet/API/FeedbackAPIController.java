@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import utils.DBUtils;
 
-@WebServlet(urlPatterns = { "/api/general/getFeedback"})
+@WebServlet(urlPatterns = { "/api/general/getFeedback","/api/general/sendFeedback"})
 public class FeedbackAPIController extends HttpServlet{
 	
 	/**
@@ -28,6 +28,7 @@ public class FeedbackAPIController extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		resp.setContentType("application/json;charset=UTF-8");
+		String path = req.getContextPath() + req.getServletPath();
 		Connection conn = null;
 		try {
 			conn = ConnectDataBase.getConnection();
@@ -38,15 +39,25 @@ public class FeedbackAPIController extends HttpServlet{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
 		String maKhoaHoc = req.getParameter("maKhoaHoc");
-		try {
-			List<FeedbackAPI> listFeedback = DBUtils.LayDanhSachFeedBack(conn, maKhoaHoc);
-			ObjectMapper obj = new ObjectMapper();
-			conn.close();
-			obj.writeValue(resp.getOutputStream(), listFeedback);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (path.contains("/api/general/getFeedback")) { 
+			try {
+				List<FeedbackAPI> listFeedback = DBUtils.LayDanhSachFeedBack(conn, maKhoaHoc);
+				ObjectMapper obj = new ObjectMapper();
+				conn.close();
+				obj.writeValue(resp.getOutputStream(), listFeedback);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (path.contains("/api/general/sendFeedback")) 
+		{
+			String maHocVien = req.getParameter("maHocVien");
+			
+			
+			
 		}
 		
 	}

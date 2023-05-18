@@ -30,6 +30,8 @@ public class GiaoVien implements java.io.Serializable {
 	private String chuyenmon;
 	private String email;
 	private List<KhoaHoc> listKhoaHocs;
+	private List<PhanMon> listPhanMon;
+	
 
 	public GiaoVien() {
 	}
@@ -265,5 +267,13 @@ public class GiaoVien implements java.io.Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<PhanMon> getListPhanMon() {
+		return listPhanMon;
+	}
+
+	public void setListPhanMon(List<PhanMon> listPhanMon) {
+		this.listPhanMon = listPhanMon;
 	}
 }

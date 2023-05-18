@@ -37,7 +37,17 @@ public class QuanTriVien implements java.io.Serializable {
 		this.cccd = cccd;
 		this.phanMons = phanMon;
 	}
+	
+	public QuanTriVien(String maQtv, String hoTen, String sdt, String email, String diaChi, String cccd) {
+			this.maQtv = maQtv;
+			this.hoTen = hoTen;
+			this.sdt = sdt;
+			this.email = email;
+			this.diaChi = diaChi;
+			this.cccd = cccd;
+		}
 
+	
 	public String getMaQtv() {
 		return this.maQtv;
 	}

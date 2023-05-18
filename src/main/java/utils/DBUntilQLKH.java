@@ -157,11 +157,8 @@ public class DBUntilQLKH {
 		pstm.setString(2, kh.getMoTa());
 		pstm.setInt(3, kh.getGiaTien());
 		pstm.setDate(4, kh.getNgayCapNhat());
-
 		pstm.setString(5, kh.getGiaoVien());
-
 		pstm.executeUpdate();
-
 	}
 
 	public static void insertKhoaHoc(Connection conn, KhoaHoc kh) throws SQLException {
@@ -175,7 +172,6 @@ public class DBUntilQLKH {
 		pstm.setString(6, kh.getPhanMon());
 		pstm.setString(7, kh.getGiaoVien());
 		pstm.executeUpdate();
-
 	}
 
 	public static boolean CheckHocVien(Connection conn, String maHocVien) throws SQLException {

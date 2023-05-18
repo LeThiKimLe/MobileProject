@@ -82,5 +82,11 @@ public class PhanMon implements java.io.Serializable {
 				+ tenPhanMon + ", image=" + image + "]";
 	}
 	
+	public PhanMon(String maPhanMon, String tenPhanMon)
+	{
+		this.maPhanMon= maPhanMon;
+		this.tenPhanMon = tenPhanMon;
+	}
+	
 
 }
