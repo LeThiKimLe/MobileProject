@@ -287,14 +287,14 @@ public class DBUntilQLKH {
 			bh1.setMaBaiHoc(rs.getString("MaBaiHoc"));
 			bh1.setTenBaiHoc(rs.getNString("TenBaiHoc"));
 			bh1.setMoTaNoiDung(rs.getNString("MoTaNoiDung"));
-			bh1.setKhoaHoc(rs.getString("MaKhoaHoc"));
+			bh1.setMaKhoaHoc(rs.getString("MaKhoaHoc"));
 			bh.add(bh1);
 		}
 		return bh;
 	}
 	public static List<BaiHoc> DanhSachBai(Connection conn, String maKhoaHoc)
 			throws SQLException {
-		String sql = "select bh.TenBaiHoc,bh.MaBaiHoc "
+		String sql = "select bh.TenBaiHoc,bh.MaBaiHoc, bh.MoTaNoiDung "
 				+ "from BaiHoc as bh "
 				+ "where bh.MaKhoaHoc=?";
 		PreparedStatement pstm = conn.prepareStatement(sql);
@@ -306,7 +306,7 @@ public class DBUntilQLKH {
 			BaiHoc bh1 = new BaiHoc();
 			bh1.setMaBaiHoc(rs.getString("MaBaiHoc"));
 			bh1.setTenBaiHoc(rs.getNString("TenBaiHoc"));
-			
+			bh1.setMoTaNoiDung(rs.getNString("MoTaNoiDung"));
 			bh.add(bh1);
 		}
 		return bh;

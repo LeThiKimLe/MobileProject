@@ -17,7 +17,7 @@ public class BaiHoc implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String maBaiHoc;
-	private String khoaHoc;
+	private String maKhoaHoc;
 	private String tenBaiHoc;
 	private String moTaNoiDung;
 	
@@ -30,14 +30,14 @@ public class BaiHoc implements java.io.Serializable {
 
 	public BaiHoc(String maBaiHoc, String khoaHoc, String tenBaiHoc, String moTaNoiDung) {
 		this.maBaiHoc = maBaiHoc;
-		this.khoaHoc = khoaHoc;
+		this.maKhoaHoc = khoaHoc;
 		this.tenBaiHoc = tenBaiHoc;
 		this.moTaNoiDung = moTaNoiDung;
 	}
 	
 	public String autoID(Connection conn) throws SQLException
 	{
-		String sql = "SELECT COUNT(*) as SoLuong FROM BaiHoc";
+		String sql = "SELECT * FROM BaiHoc";
 		
 		PreparedStatement pstm=null;
 		try {
@@ -50,13 +50,16 @@ public class BaiHoc implements java.io.Serializable {
         String kqString="";
         while (rs.next()) 
         {
-        	int soluong = rs.getInt("SoLuong");
-        	if (soluong+1<10)
-        		kqString= "BH000"+ String.valueOf(soluong+1);
-        	else {
-				kqString= "BH00"+ String.valueOf(soluong+1);
-			}
+        	kqString= rs.getString("MaBaiHoc");
         }
+        
+        int soluong = Integer.parseInt(kqString.substring(2));
+    	if (soluong+1<10)
+    		kqString= "BH000"+ String.valueOf(soluong+1);
+    	else {
+			kqString= "BH00"+ String.valueOf(soluong+1);
+		}
+        
         return kqString;  
 	}
 	
@@ -67,7 +70,7 @@ public class BaiHoc implements java.io.Serializable {
 	
 	public BaiHoc(Connection conn,String khoaHoc, String tenBaiHoc, String moTaNoiDung) throws SQLException {
 		this.maBaiHoc = autoID(conn);
-		this.khoaHoc = khoaHoc;
+		this.maKhoaHoc = khoaHoc;
 		this.tenBaiHoc = tenBaiHoc;
 		this.moTaNoiDung = moTaNoiDung;
 		addBaiHoc(conn);
@@ -82,12 +85,12 @@ public class BaiHoc implements java.io.Serializable {
 		this.maBaiHoc = maBaiHoc;
 	}
 
-	public String getKhoaHoc() {
-		return this.khoaHoc;
+	public String getMaKhoaHoc() {
+		return this.maKhoaHoc;
 	}
 
-	public void setKhoaHoc(String khoaHoc) {
-		this.khoaHoc = khoaHoc;
+	public void setMaKhoaHoc(String khoaHoc) {
+		this.maKhoaHoc = khoaHoc;
 	}
 
 	public String getTenBaiHoc() {

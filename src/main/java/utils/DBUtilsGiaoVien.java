@@ -34,7 +34,7 @@ public class DBUtilsGiaoVien {
 	public static void ThemBaiHoc(Connection conn, BaiHoc editBaiHoc) throws SQLException
 	 {
 		String maBaiHocString= editBaiHoc.getMaBaiHoc();
-		String maKhoaHocString=editBaiHoc.getKhoaHoc();
+		String maKhoaHocString=editBaiHoc.getMaKhoaHoc();
 		String tenBaiHocString=editBaiHoc.getTenBaiHoc();
 		String motaBaiHocString=editBaiHoc.getMoTaNoiDung();
 		
@@ -53,15 +53,23 @@ public class DBUtilsGiaoVien {
 	
 	public static void XoaBaiHoc(Connection conn, String maBaiHoc) throws SQLException
 	 {
-		String maBaiHocString= maBaiHoc;
 		
-		String sql = "Delete from BaiHoc where MaBaiHoc=?";
+		String sql1 = "Delete from TaiNguyen where MaBaiHoc=?";
 	 
-        PreparedStatement pstm = conn.prepareStatement(sql);
+        PreparedStatement pstm = conn.prepareStatement(sql1);
         
-        pstm.setString(1, maBaiHocString);
-      
+        pstm.setString(1, maBaiHoc);
+        
         pstm.executeUpdate();
+        
+        String sql2 = "Delete from BaiHoc where MaBaiHoc=?";
+        
+        pstm = conn.prepareStatement(sql2);
+        
+        pstm.setString(1, maBaiHoc);
+        
+        pstm.executeUpdate();
+        
 	 }
 	
 	public static boolean checkKhoaHocGiaoVien(Connection conn, String maKhoaHoc, String maGiaoVien) throws SQLException
