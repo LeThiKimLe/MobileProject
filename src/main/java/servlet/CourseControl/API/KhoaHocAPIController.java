@@ -24,7 +24,7 @@ import utils.DBUntilQLGV;
 import utils.DBUtils;
 import utils.DBUntilQLKH;
 
-@WebServlet(urlPatterns = { "/api/general/listCourse", "/api/general/courseDetail", "/api/general/listSubject", "/api/general/subject", "/api/general/khoiLop", "/api/general/getTeacher", "/api/general/search","/api/general/lession"})
+@WebServlet(urlPatterns = { "/api/general/listCourse", "/api/general/courseDetail", "/api/general/listSubject", "/api/general/subject", "/api/general/khoiLop", "/api/general/getTeacher", "/api/general/search","/api/general/lesson"})
 public class KhoaHocAPIController extends HttpServlet {
 
 	/**
@@ -175,7 +175,7 @@ public class KhoaHocAPIController extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		else if (path.contains("/api/general/lession"))
+		else if (path.contains("/api/general/lesson"))
 			
 		{
 			String makh = (String) req.getParameter("maKhoaHoc");

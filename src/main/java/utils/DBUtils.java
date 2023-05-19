@@ -910,7 +910,6 @@ public class DBUtils {
 	
 	public static List<GiaoDich> getTransaction(Connection conn, String maVi) throws SQLException
 	{
-		
 		String sql = "Select * from GiaoDich where MaVi=?";
 		PreparedStatement pstm = conn.prepareStatement(sql);
 		pstm.setString(1,maVi);
@@ -929,5 +928,16 @@ public class DBUtils {
 		}
 		return listGD;
 	}
+	
+	public static void ThemBinhLuan(Connection conn, PhanHoi ph) throws SQLException {
+		 String sql = "Insert into Rate values(?,?,?,?,?)";
+	        PreparedStatement pstm = conn.prepareStatement(sql);
+	        pstm.setInt(1, ph.getId());
+	        pstm.setInt(2, ph.getRate());
+	        pstm.setString(3, ph.getFeedbackString());
+	        pstm.setString(4, ph.getMaHocVienString());
+	        pstm.setString(5, ph.getMaKhoaHocString());
+	        pstm.executeUpdate();
+	 }
 	
 }

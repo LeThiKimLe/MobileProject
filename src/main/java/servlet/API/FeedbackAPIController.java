@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import bean.PhanHoi;
 import bean.API.FeedbackAPI;
 import dao.ConnectDataBase;
 import jakarta.servlet.ServletException;
@@ -55,9 +56,25 @@ public class FeedbackAPIController extends HttpServlet{
 		else if (path.contains("/api/general/sendFeedback")) 
 		{
 			String maHocVien = req.getParameter("maHocVien");
-			
-			
-			
+			int rate = Integer.parseInt(req.getParameter("rate"));
+			String content = req.getParameter("content");
+			PhanHoi new_rate=null;
+			try {
+				new_rate= new PhanHoi(conn, rate , content, maHocVien, maKhoaHoc);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+			try {
+				ObjectMapper obj = new ObjectMapper();
+				conn.close();
+				obj.writeValue(resp.getOutputStream(), new_rate);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 		}
 		
 	}

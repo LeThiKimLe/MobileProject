@@ -158,7 +158,7 @@ public class DBUntilQLGV {
 			KhoaHocGiaoVienAPI kh = new KhoaHocGiaoVienAPI();
 			kh.setMaKhoaHoc(rs.getString("MaKhoaHoc"));
 			kh.setTenKhoaHoc(rs.getNString("TenKhoaHoc"));
-			kh.setTenPhanMon(rs.getNString("TenPhanMon"));
+			kh.setPhanMon(rs.getNString("TenPhanMon"));
 			kh.setHinhAnhMoTa(rs.getString("HinhAnhMoTa"));
 			listKhGV.add(kh);
 		}

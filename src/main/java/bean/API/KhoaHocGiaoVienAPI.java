@@ -3,7 +3,7 @@ package bean.API;
 public class KhoaHocGiaoVienAPI {
 	private String maKhoaHoc;
 	private String tenKhoaHoc;
-	private String tenPhanMon;
+	private String PhanMon;
 	private String hinhAnhMoTa;
 	/**
 	 * @return the maKhoaHoc
@@ -32,15 +32,7 @@ public class KhoaHocGiaoVienAPI {
 	/**
 	 * @return the tenPhanMon
 	 */
-	public String getTenPhanMon() {
-		return tenPhanMon;
-	}
-	/**
-	 * @param tenPhanMon the tenPhanMon to set
-	 */
-	public void setTenPhanMon(String tenPhanMon) {
-		this.tenPhanMon = tenPhanMon;
-	}
+	
 	/**
 	 * @return the hinhAnhMoTa
 	 */
@@ -52,6 +44,12 @@ public class KhoaHocGiaoVienAPI {
 	 */
 	public void setHinhAnhMoTa(String hinhAnhMoTa) {
 		this.hinhAnhMoTa = hinhAnhMoTa;
+	}
+	public String getPhanMon() {
+		return PhanMon;
+	}
+	public void setPhanMon(String phanMon) {
+		PhanMon = phanMon;
 	}
 	
 	
