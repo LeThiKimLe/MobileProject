@@ -15,6 +15,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import utils.DBUntilQLKH;
 import utils.DBUtils;
 
 @WebServlet(urlPatterns = { "/api/general/getFeedback","/api/general/sendFeedback"})
@@ -59,13 +60,25 @@ public class FeedbackAPIController extends HttpServlet{
 			int rate = Integer.parseInt(req.getParameter("rate"));
 			String content = req.getParameter("content");
 			PhanHoi new_rate=null;
+			
+			boolean checkDaDangKy=true;
+			
 			try {
-				new_rate= new PhanHoi(conn, rate , content, maHocVien, maKhoaHoc);
-			} catch (SQLException e) {
+				checkDaDangKy = DBUntilQLKH.CheckDaDangKy(conn, maHocVien, maKhoaHoc);
+			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				e1.printStackTrace();
 			}
-		
+			if (checkDaDangKy)
+			{
+				try {
+					new_rate= new PhanHoi(conn, rate , content, maHocVien, maKhoaHoc);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
 			try {
 				ObjectMapper obj = new ObjectMapper();
 				conn.close();
@@ -74,7 +87,6 @@ public class FeedbackAPIController extends HttpServlet{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
 		}
 		
 	}

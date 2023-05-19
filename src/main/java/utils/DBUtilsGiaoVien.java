@@ -64,6 +64,21 @@ public class DBUtilsGiaoVien {
         pstm.executeUpdate();
 	 }
 	
+	public static boolean checkKhoaHocGiaoVien(Connection conn, String maKhoaHoc, String maGiaoVien) throws SQLException
+	{
+		String sql = "Select * from KhoaHoc where GiaoVien=? and MaKhoaHoc=?";
+		PreparedStatement ptsm = conn.prepareStatement(sql);
+		ptsm.setString(1, maGiaoVien);
+		ptsm.setString(2, maKhoaHoc);
+		ResultSet rs = ptsm.executeQuery();
+		while (rs.next()) {
+			return true;
+		}
+		return false;
+		
+		
+	}
+	
 	
 	
 	
