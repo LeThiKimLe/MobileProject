@@ -51,6 +51,21 @@ public class KhoaHoc implements java.io.Serializable {
 		this.hinhAnhMoTa = hinhAnhMoTa;
 		
 	}
+	
+	public KhoaHoc(String giaoVien, String phanMon, String tenKhoaHoc, String moTa,
+			Integer soBaiHoc, Integer giaTien, Date ngayCapNhat, String hinhAnhMoTa) throws SQLException
+	{
+		this.maKhoaHoc = autoId(phanMon);
+		this.giaoVien = giaoVien;
+		this.phanMon = phanMon;
+		this.tenKhoaHoc = tenKhoaHoc;
+		this.moTa = moTa;
+		this.soBaiHoc = soBaiHoc;
+		this.giaTien = giaTien;
+		this.ngayCapNhat = ngayCapNhat;
+		this.hinhAnhMoTa = hinhAnhMoTa;
+		
+	}
 
 	public String getMaKhoaHoc() {
 		return this.maKhoaHoc;
@@ -150,7 +165,27 @@ public class KhoaHoc implements java.io.Serializable {
 		return khoaHoc;
 	}
 	
-	private String autoId(String maPhanMon) throws SQLException
+	private int getKhoi(Connection conn,String maPhanMon) throws SQLException
+	{
+		String sql1="Select MaKhoi from PhanMon where MaPhanMon=?";
+		PreparedStatement pstm=null;
+		try {
+			pstm = conn.prepareStatement(sql1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		pstm.setString(1, maPhanMon);
+        ResultSet rs = pstm.executeQuery();
+        String kqString="";
+        while (rs.next()) 
+        {
+        	kqString= rs.getString("MaKhoi");
+        }
+        return Integer.parseInt(kqString.substring(1));
+	}
+	
+	public String autoId(String maPhanMon) throws SQLException
 	{
 		Connection conn = null;
 		try {
@@ -163,7 +198,7 @@ public class KhoaHoc implements java.io.Serializable {
 			e1.printStackTrace();
 		}
 		
-		String subString= maPhanMon.substring(0,2);
+		String subString= "KH"+ getKhoi(conn, maPhanMon);
 		
 		String sql = "SELECT * FROM KhoaHoc where MaKhoaHoc like ?";
 		
@@ -174,7 +209,7 @@ public class KhoaHoc implements java.io.Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		pstm.setString(1, maPhanMon+"%");
+		pstm.setString(1, subString+"%");
         ResultSet rs = pstm.executeQuery();
         String kqString="";
         while (rs.next()) 
@@ -184,7 +219,7 @@ public class KhoaHoc implements java.io.Serializable {
         
         int soluong = Integer.parseInt(kqString.substring(3));
     	if (soluong+1<10)
-    		kqString= subString+ "0" + String.valueOf(soluong+1);
+    		kqString= subString + "0" + String.valueOf(soluong+1);
     	else {
 			kqString= subString + String.valueOf(soluong+1);
 		}

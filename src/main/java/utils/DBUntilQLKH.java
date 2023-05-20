@@ -162,7 +162,7 @@ public class DBUntilQLKH {
 	}
 
 	public static void insertKhoaHoc(Connection conn, KhoaHoc kh) throws SQLException {
-		String sql = "Insert KhoaHoc(MaKhoaHoc,TenKhoaHoc,MoTa,GiaTien,NgayCapNhat,PhanMon,GiaoVien) values (?,?,?,?,?,?,?)";
+		String sql = "Insert KhoaHoc(MaKhoaHoc,TenKhoaHoc,MoTa,GiaTien,NgayCapNhat,PhanMon,GiaoVien,TrangThaiDuyet) values (?,?,?,?,?,?,?,1)";
 		PreparedStatement pstm = conn.prepareStatement(sql);
 		pstm.setString(1, kh.getMaKhoaHoc());
 		pstm.setString(2, kh.getTenKhoaHoc());

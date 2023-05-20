@@ -121,7 +121,6 @@ public class TeacherAPIController extends HttpServlet{
 			}
 			else if (action.equals("delete"))
 			{
-
 		       String idStr = (String) req.getParameter("maGiaoVien");
 		       GiaoVien gv = null;
 		        try {
@@ -132,7 +131,6 @@ public class TeacherAPIController extends HttpServlet{
 		            e.printStackTrace();
 		        }
 			}
-			
 			try {
 				ObjectMapper obj = new ObjectMapper();
 				conn.close();

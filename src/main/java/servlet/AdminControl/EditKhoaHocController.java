@@ -46,10 +46,6 @@ public class EditKhoaHocController extends HttpServlet {
 			e1.printStackTrace();
 		}
  
-       
-       
-		
-
         String idStr = (String) request.getParameter("maKhoaHoc");
         List<GiaoVien> listgv = null;
         KhoaHoc kh=null;
