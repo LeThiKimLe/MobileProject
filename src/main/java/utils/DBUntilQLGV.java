@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import bean.*;
 import bean.API.KhoaHocGiaoVienAPI;
@@ -41,6 +42,24 @@ public class DBUntilQLGV {
         }
         return list;
     }
+	
+	public static List<GiaoVien> listThongTinGiaoVien(Connection conn) throws SQLException {
+        String sql = "Select MaGiaoVien from GiaoVien where TrangThaiLamViec=1";
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        ResultSet rs = pstm.executeQuery();
+        List<GiaoVien> list = new ArrayList<GiaoVien>();
+        GiaoVien gv=null;
+        String magv;
+        
+        while (rs.next()) {
+        	magv= rs.getString("MaGiaoVien");
+            gv = DBUtils.LayThongTinGiaoVien(conn, magv);
+            list.add(gv);
+        }
+        return list;
+    }
+	
+	
     public static GiaoVien findGiaoVien(Connection conn, String inmagv) throws SQLException {
         String sql = "Select MaGiaoVien,TenGiaoVien,SDT,CCCD,DiaChi,NgayKyKet from GiaoVien a where a.MaGiaoVien=?";
  
@@ -121,6 +140,44 @@ public class DBUntilQLGV {
         pstm2.setString(5, "GV");
         pstm2.executeUpdate();
     }
+	
+	public static void insertGiaoVienAPI(Connection conn, GiaoVien gv) throws SQLException {
+        String sql = "Insert GiaoVien values (?, ?, ?, ?, ?, ?,1, ?)"; 
+        String sql1="Insert ChuyenMon values(?,?)";
+        String sql2="Insert into DangNhap(id,MaGiaoVien,Username,Password,Role) values(?,?,?,?,?)";
+        
+ //
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        pstm.setString(1, gv.getMaGiaoVien());
+        pstm.setString(2, gv.getTenGiaoVien());
+        pstm.setString(3, gv.getSdt());
+        pstm.setString(4, gv.getCccd());
+        pstm.setString(5,gv.getDiaChi());
+        pstm.setDate(6,gv.getNgayKyKet() ); 
+        pstm.setString(7,gv.getEmail()); 
+        pstm.executeUpdate();
+        
+        List<String> listChuyen = new ArrayList<String>(
+				Arrays.asList(gv.getChuyenmon().replaceAll("\\s|\\[|\\]", "").split(",")));
+        PreparedStatement pstm1 = conn.prepareStatement(sql1);
+        pstm1.setString(1, gv.getMaGiaoVien());
+        
+        for(int i=0;i<listChuyen.size();i++)
+        {
+	        pstm1.setString(2, listChuyen.get(i));
+	        pstm1.executeUpdate();
+        }
+        
+        DangNhap dNhap=new DangNhap();
+        PreparedStatement pstm2 = conn.prepareStatement(sql2);
+        pstm2.setString(1, dNhap.getId());
+        pstm2.setString(2, gv.getMaGiaoVien());
+        pstm2.setString(3, gv.getSdt());
+        pstm2.setString(4, "1234");
+        pstm2.setString(5, "GV");
+        pstm2.executeUpdate();
+    }
+	
 	public static void deleteGiaoVien(Connection conn, String inmagv) throws SQLException {
         String sql = "Update GiaoVien set TrangThaiLamViec=0 where MaGiaoVien=?";
         String sql1 = "Delete from ChuyenMon where MaGiaoVien=?";

@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -146,6 +148,47 @@ public class KhoaHoc implements java.io.Serializable {
 			e.printStackTrace();
 		}
 		return khoaHoc;
+	}
+	
+	private String autoId(String maPhanMon) throws SQLException
+	{
+		Connection conn = null;
+		try {
+			conn = ConnectDataBase.getConnection();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		String subString= maPhanMon.substring(0,2);
+		
+		String sql = "SELECT * FROM KhoaHoc where MaKhoaHoc like ?";
+		
+		PreparedStatement pstm=null;
+		try {
+			pstm = conn.prepareStatement(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		pstm.setString(1, maPhanMon+"%");
+        ResultSet rs = pstm.executeQuery();
+        String kqString="";
+        while (rs.next()) 
+        {
+        	kqString= rs.getString("MaKhoaHoc");
+        }
+        
+        int soluong = Integer.parseInt(kqString.substring(3));
+    	if (soluong+1<10)
+    		kqString= subString+ "0" + String.valueOf(soluong+1);
+    	else {
+			kqString= subString + String.valueOf(soluong+1);
+		}
+        return kqString;  
 	}
 	
 	public KhoaHoc(String maKhoaHoc)

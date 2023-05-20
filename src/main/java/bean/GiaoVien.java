@@ -49,7 +49,7 @@ public class GiaoVien implements java.io.Serializable {
 			e1.printStackTrace();
 		}
 		
-		String sql = "SELECT COUNT(*) as SoLuong FROM GiaoVien";
+		String sql = "SELECT * FROM GiaoVien";
 		
 		PreparedStatement pstm=null;
 		try {
@@ -62,13 +62,16 @@ public class GiaoVien implements java.io.Serializable {
         String kqString="";
         while (rs.next()) 
         {
-        	int soluong = rs.getInt("SoLuong");
-        	if (soluong+1<10)
-        		kqString= "GV00"+ String.valueOf(soluong+1);
-        	else {
-				kqString= "GV0"+ String.valueOf(soluong+1);
-			}
+        	kqString= rs.getString("MaGiaoVien");
         }
+        
+        int soluong = Integer.parseInt(kqString.substring(2));
+    	if (soluong+1<10)
+    		kqString= "GV00"+ String.valueOf(soluong+1);
+    	else {
+			kqString= "GV0"+ String.valueOf(soluong+1);
+		}
+        
         return kqString;  
 	}
 
