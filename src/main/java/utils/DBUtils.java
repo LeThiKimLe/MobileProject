@@ -15,6 +15,7 @@ import bean.API.FeedbackAPI;
 import bean.API.DonHangAPI;
 import bean.API.BillItem;
 import bean.API.KhoiLopAPI;
+import bean.API.OrderInforAPI;
 import bean.API.SoDuAPI;
 
 public class DBUtils {
@@ -876,6 +877,17 @@ public class DBUtils {
 		DonHangAPI bill = new DonHangAPI();
 		bill.setDonHang(dh);
 		bill.setHangDat(list_item);
+		return bill;
+	}
+	
+	public static OrderInforAPI getOrder(Connection conn, String maHoaDon) throws SQLException
+	{
+		DonHang dh= getDonHang(conn, maHoaDon);
+		List<BillItem> list_item= getBillItem(conn, maHoaDon);
+		OrderInforAPI bill = new OrderInforAPI();
+		bill.setListItem(list_item);
+		HocVien hv = LayThongTin(conn, dh.getHocVien());
+		bill.setHocVien(hv);
 		return bill;
 	}
 	
