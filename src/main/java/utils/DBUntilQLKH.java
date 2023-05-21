@@ -110,7 +110,27 @@ public class DBUntilQLKH {
 			gv.setTenGiaoVien(tengv);
 			gv.setChuyenmon(phanmonString);
 			list.add(gv);
+		}
 
+		return list;
+
+	}
+	
+	public static List<GiaoVien> listGVtheoPMAPI(Connection conn, String maPhanMon) throws SQLException {
+		String sql = "select a.MaGiaoVien,a.TenGiaoVien,b.MaPhanMon from GiaoVien as a inner join ChuyenMon as b on a.MaGiaoVien=b.MaGiaoVien where b.MaPhanMon=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, maPhanMon);
+		ResultSet rs = pstm.executeQuery();
+		List<GiaoVien> list = new ArrayList<GiaoVien>();
+		while (rs.next()) {
+			String magv = rs.getString("MaGiaoVien");
+			String tengv = rs.getString("TenGiaoVien");
+			String phanmonString = rs.getString("MaPhanMon");
+			GiaoVien gv = new GiaoVien();
+			gv.setMaGiaoVien(magv);
+			gv.setTenGiaoVien(tengv);
+			gv.setChuyenmon(phanmonString);
+			list.add(gv);
 		}
 
 		return list;

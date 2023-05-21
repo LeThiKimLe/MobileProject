@@ -619,7 +619,7 @@ public class DBUtils {
 		while (rs.next()) {
 			tkKH.setMaKhoaHoc(rs.getString("MaKhoaHoc"));
 			tkKH.setTenKhoaHoc(rs.getNString("TenKhoaHoc"));
-			tkKH.setTenPhanMon(rs.getNString("TenPhanMon"));
+			tkKH.setPhanMon(rs.getNString("TenPhanMon"));
 			tkKH.setGiaoVien(rs.getNString("TenGiaoVien"));
 			tkKH.setMoTa(rs.getNString("MoTa"));
 			tkKH.setSoBaiHoc(rs.getInt("SoBaiHoc"));

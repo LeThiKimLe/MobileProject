@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class ThongKeHocVienDK {
 	private String maKhoaHoc;
 	private String tenKhoaHoc;
-	private String tenPhanMon;
+	private String phanMon;
 	private String giaoVien;
 	private String moTa;
 	private Integer soBaiHoc;
@@ -43,14 +43,14 @@ public class ThongKeHocVienDK {
 	/**
 	 * @return the tenPhanMon
 	 */
-	public String getTenPhanMon() {
-		return tenPhanMon;
+	public String getPhanMon() {
+		return phanMon;
 	}
 	/**
 	 * @param tenPhanMon the tenPhanMon to set
 	 */
-	public void setTenPhanMon(String tenPhanMon) {
-		this.tenPhanMon = tenPhanMon;
+	public void setPhanMon(String tenPhanMon) {
+		this.phanMon = tenPhanMon;
 	}
 	/**
 	 * @return the giaoVien

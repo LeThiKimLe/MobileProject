@@ -81,7 +81,7 @@ public class CourseAPIController extends HttpServlet{
         String mota = new String(request.getParameter("moTa").getBytes("UTF-8"));
         String giatien=new String(request.getParameter("giaTien").getBytes("UTF-8"));
         String giaovienString =new String(request.getParameter("giaoVien").getBytes("UTF-8"));
-        String ngaycapnhatString = (String) request.getParameter("ngayCapNhat") ;  
+        String ngaycapnhatString = (String) request.getParameter("ngayCapNhat");  
         java.sql.Date ngaykkDate=null;
         java.util.Date ngaykk=null;
 		try {

@@ -26,7 +26,7 @@ import utils.DBUntilQLGV;
 import utils.DBUntilQLKH;
 import utils.DBUtils;
 
-@WebServlet(urlPatterns = { "/api/manager/getTeacher", "/api/manager/setTeacher" })
+@WebServlet(urlPatterns = { "/api/manager/getTeacher", "/api/manager/setTeacher", "/api/manager/getTeacherByPhanMon" })
 public class TeacherAPIController extends HttpServlet{
 
 	/**
@@ -139,6 +139,26 @@ public class TeacherAPIController extends HttpServlet{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		else if (path.contains("/api/manager/getTeacherByPhanMon"))
+		{
+			String maPhanMon=new String(req.getParameter("maPhanMon").getBytes( "UTF-8"));
+			List<GiaoVien> listGV= null;
+			try {
+				listGV = DBUntilQLKH.listGVtheoPMAPI(conn, maPhanMon);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				ObjectMapper obj = new ObjectMapper();
+				conn.close();
+				obj.writeValue(resp.getOutputStream(),listGV);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 	}
 
