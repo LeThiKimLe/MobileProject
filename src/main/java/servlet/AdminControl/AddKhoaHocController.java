@@ -36,7 +36,6 @@ import dao.ConnectDataBase;
 @WebServlet (name="add_course", urlPatterns = {"/add_course"})
 public class AddKhoaHocController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -65,27 +64,22 @@ public class AddKhoaHocController extends HttpServlet {
 		// {
 		//	 makh="KH001";
 		// }
-		 
 	        try {
 	
 	            list =DBUntilQLKH.listPhanMon(conn);
 	            listgv = DBUntilQLKH.listGiaoVien(conn);
-	           
 	            
 	        } catch (SQLException e) {
 	            e.printStackTrace();
-	           
 	        } 
 	       
 	       request.setAttribute("phanmon", list);
 	       request.setAttribute("giaovien", listgv);
-	       
 		
 		response.setContentType("text/html;charset=UTF-8");
 		RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/WEB-INF/Pages/AddKhoaHoc.jsp");
 		dispatcher.forward(request, response);
-        
- 
+       
     }
  
   

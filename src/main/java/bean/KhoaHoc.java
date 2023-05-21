@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -39,6 +41,21 @@ public class KhoaHoc implements java.io.Serializable {
 			Integer soBaiHoc, Integer giaTien, Date ngayCapNhat, String hinhAnhMoTa)
 	{
 		this.maKhoaHoc = maKhoaHoc;
+		this.giaoVien = giaoVien;
+		this.phanMon = phanMon;
+		this.tenKhoaHoc = tenKhoaHoc;
+		this.moTa = moTa;
+		this.soBaiHoc = soBaiHoc;
+		this.giaTien = giaTien;
+		this.ngayCapNhat = ngayCapNhat;
+		this.hinhAnhMoTa = hinhAnhMoTa;
+		
+	}
+	
+	public KhoaHoc(String giaoVien, String phanMon, String tenKhoaHoc, String moTa,
+			Integer soBaiHoc, Integer giaTien, Date ngayCapNhat, String hinhAnhMoTa) throws SQLException
+	{
+		this.maKhoaHoc = autoId(phanMon);
 		this.giaoVien = giaoVien;
 		this.phanMon = phanMon;
 		this.tenKhoaHoc = tenKhoaHoc;
@@ -146,6 +163,67 @@ public class KhoaHoc implements java.io.Serializable {
 			e.printStackTrace();
 		}
 		return khoaHoc;
+	}
+	
+	private int getKhoi(Connection conn,String maPhanMon) throws SQLException
+	{
+		String sql1="Select MaKhoi from PhanMon where MaPhanMon=?";
+		PreparedStatement pstm=null;
+		try {
+			pstm = conn.prepareStatement(sql1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		pstm.setString(1, maPhanMon);
+        ResultSet rs = pstm.executeQuery();
+        String kqString="";
+        while (rs.next()) 
+        {
+        	kqString= rs.getString("MaKhoi");
+        }
+        return Integer.parseInt(kqString.substring(1));
+	}
+	
+	public String autoId(String maPhanMon) throws SQLException
+	{
+		Connection conn = null;
+		try {
+			conn = ConnectDataBase.getConnection();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		String subString= "KH"+ getKhoi(conn, maPhanMon);
+		
+		String sql = "SELECT * FROM KhoaHoc where MaKhoaHoc like ?";
+		
+		PreparedStatement pstm=null;
+		try {
+			pstm = conn.prepareStatement(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		pstm.setString(1, subString+"%");
+        ResultSet rs = pstm.executeQuery();
+        String kqString="";
+        while (rs.next()) 
+        {
+        	kqString= rs.getString("MaKhoaHoc");
+        }
+        
+        int soluong = Integer.parseInt(kqString.substring(3));
+    	if (soluong+1<10)
+    		kqString= subString + "0" + String.valueOf(soluong+1);
+    	else {
+			kqString= subString + String.valueOf(soluong+1);
+		}
+        return kqString;  
 	}
 	
 	public KhoaHoc(String maKhoaHoc)

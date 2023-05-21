@@ -49,7 +49,7 @@ public class DangNhap implements java.io.Serializable {
 			e1.printStackTrace();
 		}
 		
-		String sql = "SELECT COUNT(*) as SoLuong FROM DangNhap";
+		String sql = "SELECT * FROM DangNhap";
 		
 		PreparedStatement pstm=null;
 		try {
@@ -62,13 +62,16 @@ public class DangNhap implements java.io.Serializable {
         String kqString="";
         while (rs.next()) 
         {
-        	int soluong = rs.getInt("SoLuong");
-        	if (soluong+1<10)
-        		kqString= "TK00"+ String.valueOf(soluong+1);
-        	else {
-				kqString= "TK0"+ String.valueOf(soluong+1);
-			}
+        	kqString= rs.getString("Id");
         }
+        
+        int soluong = Integer.parseInt(kqString.substring(2));
+    	if (soluong+1<10)
+    		kqString= "TK00"+ String.valueOf(soluong+1);
+    	else {
+			kqString= "TK0"+ String.valueOf(soluong+1);
+		}
+        
         return kqString;  
 	}
 	
