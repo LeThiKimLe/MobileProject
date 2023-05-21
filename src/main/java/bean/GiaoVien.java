@@ -82,6 +82,16 @@ public class GiaoVien implements java.io.Serializable {
 		this.diaChi = diaChi;
 		this.ngayKyKet = ngayKyKet;
 	}
+	public GiaoVien(String maGiaoVien, String tenGiaoVien, String sdt, String cccd, String diaChi,
+			String email)
+	{
+		this.maGiaoVien = maGiaoVien;
+		this.tenGiaoVien = tenGiaoVien;
+		this.sdt = sdt;
+		this.cccd = cccd;
+		this.diaChi = diaChi;
+		this.email = email;
+	}
 	
 	public GiaoVien(String maGiaoVien, String email, String tenGiaoVien, String sdt, String cccd, String diaChi,
 			Date ngayKyKet)

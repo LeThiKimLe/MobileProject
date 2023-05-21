@@ -662,6 +662,8 @@ public class DBUtils {
 
 		return null;
 	}
+
+
 	
 	public static void CapNhatThongTinUser(Connection conn, HocVien hocVien) throws SQLException {
 		String sql = "UPDATE HocVien\r\n"
@@ -674,6 +676,34 @@ public class DBUtils {
 		pstm.setDate(4, hocVien.getNgaySinh());
 		pstm.setString(5, hocVien.getImage());
 		pstm.setString(6, hocVien.getMaHocVien());
+		pstm.executeUpdate();
+	}
+	public static void CapNhatThongTinQTV(Connection conn, QuanTriVien qtv) throws SQLException {
+		String sql = "UPDATE QuanTriVien\r\n"
+				+ "SET HoTen=?, SDT=?, Email=?, DiaChi=?, CCCD=?\r\n"
+				+ "WHERE MaQTV=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, qtv.getHoTen());
+		pstm.setString(2, qtv.getSdt());
+		pstm.setString(3, qtv.getEmail());
+		pstm.setString(4, qtv.getDiaChi());
+		pstm.setString(5, qtv.getCccd());
+		pstm.setString(6, qtv.getMaQtv());
+		
+		pstm.executeUpdate();
+	}
+	public static void CapNhatThongTinGV(Connection conn, GiaoVien gv) throws SQLException {
+		String sql = "UPDATE GiaoVien\r\n"
+				+ "SET TenGiaoVien=?, SDT=?, CCCD=?, DiaChi=?, Email=? \r\n "
+				+ "WHERE MaGiaoVien=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, gv.getTenGiaoVien());
+		pstm.setString(2, gv.getSdt());
+		pstm.setString(3, gv.getCccd());
+		pstm.setString(4, gv.getDiaChi());
+		pstm.setString(5, gv.getEmail());
+		pstm.setString(6, gv.getMaGiaoVien());
+		
 		pstm.executeUpdate();
 	}
 	
