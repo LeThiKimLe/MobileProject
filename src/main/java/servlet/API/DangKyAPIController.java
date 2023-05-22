@@ -53,7 +53,7 @@ public class DangKyAPIController extends HttpServlet {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-		if (!checkUser) {
+		if (checkUser) {
 			hvApi.setResult("fail");
 			hvApi.setMessage("Tài khoản tồn tại");
 		} else {
@@ -67,7 +67,6 @@ public class DangKyAPIController extends HttpServlet {
 				ngaysinh = formatter.format(date);
 			}
 			String passString= (String)request.getParameter("password");
-			
 			try {
 				date = formatter.parse(ngaysinh);
 			} catch (ParseException e) {

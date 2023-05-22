@@ -71,7 +71,7 @@ public class DBUtils {
 
 		long millis = System.currentTimeMillis();
 		java.sql.Date date = new java.sql.Date(millis);
-		ViThanhToan viThanhToan = new ViThanhToan(conn, hv.getMaHocVien(), 1000000, date);
+		ViThanhToan viThanhToan = new ViThanhToan(conn, hv.getMaHocVien(), 100000, date);
 		String sql3 = "Insert into ViThanhToan values(?,?,?,?)";
 
 		PreparedStatement pstm3 = conn.prepareStatement(sql3);
